@@ -1,21 +1,16 @@
 <?php
 class Dbconfig{
-    protected string $serverName;
-    protected string $userName;
-    protected string $passWord;
-    protected string $dataBase;
-    public mysqli $connection;
+    static protected string $serverName = 'localhost';
+    static protected string $userName = 'root';
+    static protected string $passWord = '';
+    static protected string $dataBase = 'todolist';
+    static public mysqli $connection;
 
-    function __construct(){
-        $this->serverName = 'localhost';
-        $this->userName = 'root';
-        $this->passWord = '';
-        $this->dataBase = 'todolist'; 
-    }
-
-    function getConnection(){
-        $this->connection = new mysqli($this->serverName, $this->userName, $this->passWord, $this->dataBase);
-        return $this->connection;
+    static function getConnection(){
+        if(empty(self::$connection)){
+            self::$connection = new mysqli(self::$serverName, self::$userName, self::$passWord, self::$dataBase);
+        }
+        return self::$connection;
     }
 }
 ?>
