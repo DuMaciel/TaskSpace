@@ -9,14 +9,25 @@ class Mysql{
         $this->mysql = $dbconfig->getConnection();
     }
     
-    function insertUsers($values){
-         $resultado = $this->mysql->query("INSERT INTO usuarios (nome, email, senha) VALUES ('$values->nome','$values->email','$values->senha');");
+    function insertUser($name, $email, $pass){
+        $name = $this->mysql->real_escape_string($name);
+        $email = $this->mysql->real_escape_string($email);
+        $pass = password_hash($pass, PASSWORD_DEFAULT);
+
+        if(!$this->userExist($email)){
+            $resultado = $this->mysql->query("INSERT INTO users (_name, _email, _pass) VALUES ('$name','$email','$pass');");
          return $resultado;
+    }
+        return false;
     }
 
-    function selectUsers(){
-        $resultado = $this->mysql->query("SELECT nome, email FROM usuarios");
+    function testPass($email, $pass){
          return $resultado;
     }
+    function userExist($email){
+        $resultado = $this->mysql->query("SELECT _email FROM users WHERE _email = '$email'");
+        return ($resultado->num_rows > 0);
+    }
+
 }
 ?>
