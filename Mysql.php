@@ -16,14 +16,20 @@ class Mysql{
 
         if(!$this->userExist($email)){
             $resultado = $this->mysql->query("INSERT INTO users (_name, _email, _pass) VALUES ('$name','$email','$pass');");
-         return $resultado;
-    }
+            return $resultado;
+        }
         return false;
     }
 
     function testPass($email, $pass){
-         return $resultado;
+        if($this->userExist($email)){
+            $passHash = $this->mysql->query("SELECT _pass FROM users WHERE _email = '$email'")->fetch_assoc()['_pass'];
+            $resultado = password_verify($pass, $passHash);
+            return $resultado;
+        }
+        return false;
     }
+
     function userExist($email){
         $resultado = $this->mysql->query("SELECT _email FROM users WHERE _email = '$email'");
         return ($resultado->num_rows > 0);
