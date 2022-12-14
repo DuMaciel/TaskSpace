@@ -7,9 +7,10 @@
         $db = new Mysql();
 
         if($db::testPass($email, $password)){
-            echo 'Usuario logado';
+            $_SESSION['user'] = $email;
+            $_SESSION['Logged'] = true;
         }else{
-            echo 'Senha incorreta';
+            $_SESSION['Logged'] = false;
         }
     }
 ?>
