@@ -15,9 +15,10 @@ switch ($method){
                 break;
             default:
                 http_response_code(404);
-                echo '<h1>Error</h1>';
+                include realpath(__DIR__ . '/templates/error.php');
         }
         break;
+
     case 'POST':
         switch ($url) {
             case '/login':
@@ -28,9 +29,13 @@ switch ($method){
                 break;
             default:
                 http_response_code(404);
-                echo '<h1>Error</h1>';
+                include realpath(__DIR__ . '/templates/error.php');
         }
         break;
+
+    default:
+    http_response_code(404);
+    include realpath(__DIR__ . '/templates/error.php');
 }
 
 ?>
