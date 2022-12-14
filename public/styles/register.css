@@ -24,7 +24,7 @@ fieldset legend{
     color: black;
 }
 
-#name, #email, #password, #conf-password, #submit{
+#name, #email, #password, #confPassword, #submit{
     display: block;
     width: 100%;
     box-sizing: border-box; 
@@ -33,7 +33,7 @@ fieldset legend{
     border-color: rgb(118, 118, 118);
 }
 
-#name, #email, #password, #conf-password{
+#name, #email, #password, #confPassword{
     margin-bottom: 20px;
 }
 
@@ -52,4 +52,8 @@ form a{
 
 form a:hover{
     color: black;
+}
+
+.dif{
+    background-color: red;
 }
