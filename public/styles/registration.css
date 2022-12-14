@@ -1,0 +1,55 @@
+*{
+    font-family: tahoma, arial, sans-serif;
+}
+
+
+form{
+    width: 250px;
+    margin: auto;
+    margin-top: 50px;
+    color: rgb(118, 118, 118);
+}
+fieldset{
+    padding: 20px;
+    border-radius: 8px;
+    border-color: rgb(118, 118, 118);
+    
+}
+
+fieldset legend{
+    font-size: 20px;
+    padding: 5px 10px;
+    border: 1px inset rgb(118, 118, 118);
+    border-radius: 8px;
+    color: black;
+}
+
+#name, #email, #password, #conf-password, #submit{
+    display: block;
+    width: 100%;
+    box-sizing: border-box; 
+    border-radius: 8px;
+    padding: 5px;
+    border-color: rgb(118, 118, 118);
+}
+
+#name, #email, #password, #conf-password{
+    margin-bottom: 20px;
+}
+
+#submit{
+    padding: 5px;
+    color: black;
+}
+
+form a{
+    display: block;
+    text-align: center;
+    text-decoration: none;
+    color: gray;
+    transition: color 0.3s ease-out;
+}
+
+form a:hover{
+    color: black;
+}
