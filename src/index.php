@@ -2,9 +2,9 @@
 <?php
 session_start();
 
-var_dump($_SESSION);
 $method = $_SERVER['REQUEST_METHOD'];
-$url = $_SERVER['REQUEST_URI'];
+$url = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+
 
 switch ($method){
     case 'GET':
