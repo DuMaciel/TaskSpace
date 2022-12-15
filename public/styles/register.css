@@ -1,59 +1,132 @@
-*{
-    font-family: tahoma, arial, sans-serif;
+:root{
+    --violet-dark: hsl(265, 100%, 25%);
+    --violet: hsl(265, 80%, 35%);
+    --violet-white: hsl(265, 60%, 45%);
+    --grey: hsla(0, 0%, 0%, 0.5);
+    --grey-light: hsla(0, 0%, 0%, 0.25);
+    font-family: 'Open Sans', sans-serif;
+    margin: 0;
+    padding: 0;
+   
+}
+
+body{
+    display: flex;
+    height: 100vh;
+    flex-direction: column;
+    justify-content: space-between;
+    color: var(--violet-dark);
+}
+
+.hidden{
+    display: block;
+    height: 0;
+    width: 0;
+    overflow: hidden;
 }
 
 
-form{
-    width: 250px;
+.title{
+    font-size: 175%;
+    margin-bottom: 0;
+}
+.caption{
+    margin-top: 0;
+    font-size: 80%;
+    color: var(--grey);
+}
+.reminder{
+    display: block;
+    margin-top: 1em;
+    font-size: 80%;
+    color: var(--grey);
+}
+
+
+.link{
+    cursor: pointer;
+    text-decoration: none;
+    color: var(--violet-dark);
+    transition: color 0.5s ease-out;
+    border-bottom: 0.1em dotted transparent;
+}
+.link:hover{
+    color: var(--violet);
+    border-bottom: 0.1em dotted var(--violet);
+}
+.button{
+    cursor: pointer;
+    text-decoration: none;
+    color: white;
+    background-color: var(--violet-dark);
+    border: 0.1em solid white;
+    border-radius: 0.5em;
+    transition: background-color 0.5s ease-out;
+    
+}
+.button:hover{
+    background-color: var(--violet);
+}
+
+
+
+header{
+    display: flex;
+    align-items: center;
+    background-color: var(--violet-dark);
+    height: 3em;
+    padding-left: 10%;
+}
+
+header a{
+    color: white;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 2em;
+}
+
+
+.register{
+    width: 100%;
+    padding: 10%;
+    box-sizing: border-box;
+}
+
+.register form{
+    text-align: center;
+    max-width: 25em;
     margin: auto;
-    margin-top: 50px;
-    color: rgb(118, 118, 118);
 }
-fieldset{
-    padding: 20px;
-    border-radius: 8px;
-    border-color: rgb(118, 118, 118);
+
+
+
+.register form input{
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0.5em;
+    margin-top: 1em;
     
 }
 
-fieldset legend{
-    font-size: 20px;
-    padding: 5px 10px;
-    border: 1px inset rgb(118, 118, 118);
-    border-radius: 8px;
-    color: black;
+.register form input[type='text'],.register form input[type='email'],.register form input[type='password']{
+    color: var(--violet-dark);
+    border: 0.1em solid var(--grey);
+    border-radius: 0.5em;
 }
 
-#name, #email, #password, #confPassword, #submit{
-    display: block;
-    width: 100%;
-    box-sizing: border-box; 
-    border-radius: 8px;
-    padding: 5px;
-    border-color: rgb(118, 118, 118);
+.register form input:focus{
+    outline-color: var(--violet-dark);
+
 }
 
-#name, #email, #password, #confPassword{
-    margin-bottom: 20px;
+.register form input.button{
+    margin-top: 2em;
 }
 
-#submit{
-    padding: 5px;
-    color: black;
-}
 
-form a{
-    display: block;
+footer{
+    background-color: var(--grey-light);
     text-align: center;
-    text-decoration: none;
-    color: gray;
-    transition: color 0.3s ease-out;
-}
-
-form a:hover{
-    color: black;
-}
-
-.dif{
-    background-color: red;
+    color: white;
 }
