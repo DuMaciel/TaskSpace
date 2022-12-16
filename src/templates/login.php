@@ -17,7 +17,7 @@
 </head>
 <body>
     <header>
-        <a href="">TaskSpace</a>
+        <a href="./home">TaskSpace</a>
     </header>
     <section class="login">
     <form action="./login" method="post">
@@ -28,8 +28,7 @@
             <label class="hidden" for="password">Password</label>
             <input type="password" id="password" name="password" placeholder="Enter your password" required>
             <input class="button" type="submit" value="LOG IN" id="logIn">
-            <span class="reminder">Not a member? <a class="link" href="./register">Register Now</a></span>
-            
+            <p class="reminder">Not a member? <a class="link" href="./register">Register Now</a></p>
     </form>
     </section>
 
