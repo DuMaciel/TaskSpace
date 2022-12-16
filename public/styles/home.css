@@ -1,0 +1,118 @@
+:root {
+    --violet-dark: hsl(265, 100%, 25%);
+    --violet: hsl(265, 80%, 35%);
+    --violet-white: hsl(265, 60%, 45%);
+    --grey: hsla(0, 0%, 0%, 0.5);
+    --grey-light: hsla(0, 0%, 0%, 0.25);
+    font-family: 'Open Sans', sans-serif;
+    margin: 0;
+    padding: 0;
+
+}
+
+body {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+    justify-content: space-between;
+    color: var(--violet-dark);
+}
+
+
+.link {
+    cursor: pointer;
+    text-decoration: none;
+    color: var(--violet-dark);
+    transition: color 0.5s ease-out, border-color 0.5s ease-out;
+    border-bottom: 0.1em dotted transparent;
+}
+
+.link:hover {
+    color: var(--violet);
+    border-bottom: 0.1em dotted var(--violet);
+    transition: color 0.5s ease-out, border-color 0.5s ease-out;
+}
+
+.hidden {
+    display: block;
+    height: 0;
+    width: 0;
+    overflow: hidden;
+}
+
+
+/* header  */
+header {
+    display: flex;
+    align-items: center;
+    background-color: var(--violet-dark);
+    height: 3em;
+    padding-left: 10%;
+}
+
+header a {
+    color: white;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 2em;
+}
+
+
+.home {
+    width: 100%;
+    padding: 0 10%;
+    box-sizing: border-box;
+    text-align: center;
+    margin: auto;
+}
+
+.home .title {
+    font-size: 175%;
+    margin-bottom: 0.1em;
+    margin-top: 0;
+}
+
+.home .caption {
+    margin-top: 0;
+    font-size: 80%;
+    color: var(--grey);
+}
+
+.home .reminder {
+    display: block;
+    margin-top: 1em;
+    font-size: 80%;
+    color: var(--grey);
+    
+}
+
+.home img{
+    width: 15em;
+}
+
+.home .button {
+    margin: auto;
+    max-width: 15em;
+    display: block;
+    cursor: pointer;
+    text-decoration: none;
+    color: white;
+    background-color: var(--violet-dark);
+    border: 0.1em solid white;
+    border-radius: 0.5em;
+    padding: .5em;
+    transition: background-color 0.5s ease-out;
+
+}
+
+.home .button:hover {
+    background-color: var(--violet);
+}
+
+
+/* footer */
+footer {
+    background-color: var(--grey-light);
+    text-align: center;
+    color: white;
+}
