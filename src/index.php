@@ -9,6 +9,7 @@ $url = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 switch ($method){
     case 'GET':
         switch ($url) {
+            case '/':
             case '/home':
                 include realpath(__DIR__ . '/templates/home.php');
                 break;
