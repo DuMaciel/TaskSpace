@@ -22,9 +22,12 @@
     </header>
 
     <main class="register">
-        <form action="./register" method="post">
+        <form action="./register" method="post" id="registerForm">
             <p class="title">Hello!</p>
             <p class="caption">Welcome To TaskSpace<br>sign up to get started.</p>
+            <?php
+            include realpath(__DIR__ .'./components/emailRegistred.php')
+            ?>
             <label class="hidden" for="name">Name</label>
             <input type="text" id="name" name="name" placeholder="Enter your name" required autofocus>
             <label class="hidden" for="email">Email</label>
@@ -46,5 +49,3 @@
 <script src="./public/scripts/register.js"></script>
 
 </html>
-
-<?php ?>

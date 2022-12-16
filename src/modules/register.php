@@ -15,7 +15,8 @@
                 echo 'Erro ao cadastrar';
             }
         }else{
-            echo 'Usuario ja existe';
+            $_SESSION['userExist']=true;
+            header('Location:/register');
         }
         
     }
