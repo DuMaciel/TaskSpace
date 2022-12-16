@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,20 +8,21 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
 
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="./public/styles/normalize.css">
     <link rel="stylesheet" href="./public/styles/register.css">
     <title>Registration ToDoList</title>
 </head>
+
 <body>
     <header>
-        <a href="">TaskSpace</a>
+        <a href="./home">TaskSpace</a>
     </header>
-    <section class="register">
-    <form  action="./register" method="post">
+
+    <main class="register">
+        <form action="./register" method="post">
             <p class="title">Hello!</p>
             <p class="caption">Welcome To TaskSpace<br>sign up to get started.</p>
             <label class="hidden" for="name">Name</label>
@@ -32,16 +34,17 @@
             <label class="hidden" for="conf-password">Confirm password</label>
             <input type="password" id="confPassword" placeholder="Confirm your password" required>
             <input class="button" type="submit" value="SIGN UP" id="SingUp">
-            <span class="reminder">Already have an account? <a class="link" href="./login">Log In</a></span>
-    </form>
-    </section>
-    
+            <p class="reminder">Already have an account? <a class="link" href="./login">Log In</a></p>
+        </form>
+    </main>
+
     <footer>
         <p>TaskSpace®</p>
     </footer>
 </body>
 
 <script src="./public/scripts/register.js"></script>
+
 </html>
 
 <?php ?>
