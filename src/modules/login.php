@@ -11,6 +11,8 @@
             $_SESSION['Logged'] = true;
         }else{
             $_SESSION['Logged'] = false;
+            $_SESSION['Incorrect']=true;
+            header('Location:/login');
         }
     }
 ?>
