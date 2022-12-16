@@ -70,7 +70,7 @@ header a {
     box-sizing: border-box;
 }
 
-.register .userExist{
+.register .warning{
     display: block;
     color: white;
     background-color: var(--red);

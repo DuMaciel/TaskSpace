@@ -10,12 +10,13 @@
 
         if(!$db::userExist($email)){
             if($db::insertUser($name, $email, $password)){
-                echo 'Usuario Cadastrado';
+                echo 'User Registred';
             }else{
-                echo 'Erro ao cadastrar';
+                $_SESSION['errorRegistering']=true;
+                header('Location:/register');
             }
         }else{
-            $_SESSION['userExist']=true;
+            $_SESSION['emailRegistred']=true;
             header('Location:/register');
         }
         
