@@ -10,16 +10,15 @@
 
         if(!$db::userExist($email)){
             if($db::insertUser($name, $email, $password)){
-                echo 'User Registred';
+                $_SESSION['successRegistering']=true;
             }else{
                 $_SESSION['errorRegistering']=true;
-                header('Location:/register');
             }
         }else{
             $_SESSION['emailRegistred']=true;
-            header('Location:/register');
+            
         }
-        
+        header('Location:/register');
     }
    
 ?>
