@@ -12,8 +12,8 @@
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
 
 
-    <link rel="stylesheet" href="./public/styles/normalize.css">
-    <link rel="stylesheet" href="./public/styles/error.css">
+    <link rel="stylesheet" href="/public/styles/normalize.css">
+    <link rel="stylesheet" href="/public/styles/error.css">
     <title>Page Not Found</title>
 </head>
 
@@ -25,7 +25,7 @@
     <main class="error">
         <p class="art">404</p>
         <h2 class="title">The page you are looking for cannot be found.</h2>
-        <p class="reminder">Go to <a class="link" href="./home">Home</a></p>
+        <p class="reminder">Go to <a class="link" href="/home">Home</a></p>
     </main>
 
 

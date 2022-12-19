@@ -11,23 +11,23 @@
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
 
 
-    <link rel="stylesheet" href="./public/styles/normalize.css">
-    <link rel="stylesheet" href="./public/styles/home.css">
+    <link rel="stylesheet" href="/public/styles/normalize.css">
+    <link rel="stylesheet" href="/public/styles/home.css">
     <title>To Do List | Organize seu dia!</title>
 </head>
 <body>
     <header>
-        <a href="./home">TaskSpace</a>
+        <a href="/home">TaskSpace</a>
     </header>
 
     <main class="home">
-        <img src="./public/images/taskMenager.svg" alt="">
+        <img src="/public/images/taskMenager.svg" alt="">
 
         <p class="title">Manage your tasks</p>
         <p class="caption">Organize, plan, and collaborate on tasks with TaskSpace.Your busy life deserves this.you can manage checklist and your goal. </p>
 
-        <a class="button" href="./register">Get Started</a>
-        <p class="reminder">Already have an account? <a class="link" href="./login">Log In</a></p>
+        <a class="button" href="/register">Get Started</a>
+        <p class="reminder">Already have an account? <a class="link" href="/login">Log In</a></p>
     </main>
     
     <footer>

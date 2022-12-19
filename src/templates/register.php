@@ -11,24 +11,24 @@
 
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="./public/styles/normalize.css">
-    <link rel="stylesheet" href="./public/styles/register.css">
+    <link rel="stylesheet" href="/public/styles/normalize.css">
+    <link rel="stylesheet" href="/public/styles/register.css">
     <title>Registration ToDoList</title>
 </head>
 
 <body>
     <header>
-        <a href="./home">TaskSpace</a>
+        <a href="/home">TaskSpace</a>
     </header>
 
     <main class="register">
-        <form action="./register" method="post" id="registerForm">
+        <form action="/register" method="post" id="registerForm">
             <p class="title">Hello!</p>
             <p class="caption">Welcome To TaskSpace<br>sign up to get started.</p>
             <?php
-            include realpath(__DIR__ .'./components/emailRegistred.php');
-            include realpath(__DIR__ .'./components/errorRegistering.php');
-            include realpath(__DIR__ .'./components/successRegistering.php');
+            include realpath(__DIR__ .'/components/emailRegistred.php');
+            include realpath(__DIR__ .'/components/errorRegistering.php');
+            include realpath(__DIR__ .'/components/successRegistering.php');
             ?>
             <label class="hidden" for="name">Name</label>
             <input type="text" id="name" name="name" placeholder="Enter your name" required autofocus>
@@ -39,7 +39,7 @@
             <label class="hidden" for="conf-password">Confirm password</label>
             <input type="password" id="confPassword" placeholder="Confirm your password" required>
             <input class="button" type="submit" value="SIGN UP" id="SingUp">
-            <p class="reminder">Already have an account? <a class="link" href="./login">Log In</a></p>
+            <p class="reminder">Already have an account? <a class="link" href="/login">Log In</a></p>
         </form>
     </main>
 
@@ -48,6 +48,6 @@
     </footer>
 </body>
 
-<script src="./public/scripts/register.js"></script>
+<script src="/public/scripts/register.js"></script>
 
 </html>

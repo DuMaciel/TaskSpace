@@ -11,27 +11,27 @@
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
 
 
-    <link rel="stylesheet" href="./public/styles/normalize.css">
-    <link rel="stylesheet" href="./public/styles/login.css">
+    <link rel="stylesheet" href="/public/styles/normalize.css">
+    <link rel="stylesheet" href="/public/styles/login.css">
     <title>Login ToDoList</title>
 </head>
 <body>
     <header>
-        <a href="./home">TaskSpace</a>
+        <a href="/home">TaskSpace</a>
     </header>
     <section class="login">
-    <form action="./login" method="post">
+    <form action="/login" method="post">
             <p class="title">Hello Again!</p>
             <p class="caption">Welcome To Your<br>TaskSpace</p>
             <?php
-            include realpath(__DIR__ .'./components/errorLogin.php')
+            include realpath(__DIR__ .'/components/errorLogin.php')
             ?>
             <label class="hidden" for="email">Email</label>
             <input type="email" id="email" name="email" placeholder="Enter your email" required autofocus>
             <label class="hidden" for="password">Password</label>
             <input type="password" id="password" name="password" placeholder="Enter your password" required>
             <input class="button" type="submit" value="LOG IN" id="logIn">
-            <p class="reminder">Not a member? <a class="link" href="./register">Register Now</a></p>
+            <p class="reminder">Not a member? <a class="link" href="/register">Register Now</a></p>
     </form>
     </section>
 

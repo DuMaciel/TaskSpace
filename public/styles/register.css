@@ -71,7 +71,7 @@ header a {
     box-sizing: border-box;
 }
 
-.register .warning{
+.register .warning {
     display: block;
     color: white;
     background-color: var(--red);
@@ -79,7 +79,8 @@ header a {
     padding: 0.5em;
     margin-bottom: 0;
 }
-.register .warning.success{
+
+.register .warning.success {
     background-color: var(--green);
 }
 
@@ -149,7 +150,8 @@ header a {
     margin-top: 2em;
 }
 
-.register form input:focus.dif,.register form input[type='password'].dif{
+.register form input:focus.dif,
+.register form input[type='password'].dif {
     outline-color: var(--red);
     border-color: var(--red);
 }
