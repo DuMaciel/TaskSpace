@@ -19,25 +19,40 @@
         <a href="/home">TaskSpace</a>
     </header>
 
-    <div class="taskBoard">
-        <div class="taskColumn">
-            <input class="titleColumn" type="text" placeholder="New Column" maxlength="30">
-            <ul class="taskList">
-                <li id="1"class="task" draggable="true">
-                    <p class="identificationTask">boardName#id</p>
-                    <p class="titleTask">Task aqui</p>
-                    <div class="tagsTask">
-                        <span>tag1</span>
-                        <span>tag2</span>
-                        <span>tag3</span>
-                    </div>
-                </li>
 
-            </ul>
-            <button class="taskCreate">+ Add Task</button>
+    <div id="navBoards">
+        <ul>
+            <li class="active">
+            <input class="titleBoard" type="text" placeholder="New Board" maxlength="20" >
+            </li>
+            <li >
+            <input class="titleBoard" type="text" placeholder="New Board" maxlength="20" readonly>
+            </li>
+        </ul>
+        <button id="createBoard">+</button>
+    </div>
+    <div id="boards">
+        <div class="board">
+            <div class="column">
+                <input class="titleColumn" type="text" placeholder="New Column" maxlength="30">
+                <ul class="listTask">
+                    <li id="1"class="task" draggable="true">
+                        <p class="identificationTask">boardName#id</p>
+                        <p class="titleTask">Task aqui</p>
+                        <div class="tagsTask">
+                            <span>tag1</span>
+                            <span>tag2</span>
+                            <span>tag3</span>
+                        </div>
+                    </li>
+                </ul>
+                <button class="createTask">+ Add Task</button>
+            </div>
+            <button class="createColumn">+</button>
         </div>
-        <button id="taskColumnCreate">+</button>
+        
     </div>
 </body>
 
+<script src="/public/scripts/dashboard.js"></script>
 </html>
