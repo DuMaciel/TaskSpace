@@ -1,13 +1,23 @@
 :root {
+    --red: hsl(7, 80%, 56%);
+
+    --dark: hsla(0, 0%, 0%, 0.25);
+
+    --grey: hsl(228.8, 20%, 70%);
+    --blue: hsl(228.8, 90%, 50%);
+    --blue-medium: hsl(228.8, 80%, 15%);
+    --blue-deep: hsl(228.8, 80%, 10%);
+    --blue-dark: hsl(228.8, 80%, 5%);
+
     --violet-dark: hsl(265, 100%, 25%);
     --violet: hsl(265, 80%, 35%);
     --violet-white: hsl(265, 60%, 45%);
-    --grey: hsla(0, 0%, 0%, 0.5);
-    --grey-light: hsla(0, 0%, 0%, 0.25);
-    --red: hsl(7, 100%, 56%);
+
     font-family: 'Open Sans', sans-serif;
     margin: 0;
     padding: 0;
+
+
 
 }
 
@@ -16,25 +26,22 @@ body {
     min-height: 100vh;
     flex-direction: column;
     justify-content: space-between;
-    color: var(--violet-dark);
+    color: white;
+    background-color: var(--blue-dark);
 }
-
-
-
-
 
 .link {
     cursor: pointer;
     text-decoration: none;
-    color: var(--violet-dark);
-    transition: color 0.5s ease-out, border-color 0.5s ease-out;
+    color: var(--blue);
     border-bottom: 0.1em dotted transparent;
+    filter: brightness(1.2);
+    transition: all 0.2s ease-in-out;
 }
 
 .link:hover {
-    color: var(--violet);
-    border-bottom: 0.1em dotted var(--violet);
-    transition: color 0.5s ease-out, border-color 0.5s ease-out;
+    border-color: var(--blue);
+    filter: brightness(1);
 }
 
 .hidden {
@@ -44,13 +51,11 @@ body {
     overflow: hidden;
 }
 
-
-
 /* header  */
 header {
     display: flex;
     align-items: center;
-    background-color: var(--violet-dark);
+    background-color: var(--blue-deep);
     height: 3em;
     padding-left: 10%;
 }
@@ -70,7 +75,7 @@ header a {
     box-sizing: border-box;
 }
 
-.login .warning{
+.login .warning {
     display: block;
     color: white;
     background-color: var(--red);
@@ -102,15 +107,16 @@ header a {
     cursor: pointer;
     text-decoration: none;
     color: white;
-    background-color: var(--violet-dark);
-    border: 0.1em solid white;
+    background-color: var(--blue-medium);
+    border: 0.1em solid var(--blue-medium);
     border-radius: 0.5em;
     transition: background-color 0.5s ease-out;
-
+    padding: .5em;
+    transition: filter 0.2s ease-out;
 }
 
 .login .button:hover {
-    background-color: var(--violet);
+    filter: brightness(1.2);
 }
 
 .login form {
@@ -130,13 +136,18 @@ header a {
 
 .login form input[type='email'],
 .login form input[type='password'] {
-    color: var(--violet-dark);
-    border: 0.1em solid var(--grey);
+    color: white;
+    border: 0.1em solid var(--blue-medium);
     border-radius: 0.5em;
+    background-color: var(--dark);
 }
 
 .login form input:focus {
-    outline-color: var(--violet-dark);
+    outline-color: var(--blue-medium);
+}
+
+.login form input::placeholder {
+    color: var(--grey);
 }
 
 .login form input.button {
@@ -145,7 +156,7 @@ header a {
 
 /* footer */
 footer {
-    background-color: var(--grey-light);
+    background-color: var(--dark);
     text-align: center;
     color: white;
 }

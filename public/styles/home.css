@@ -1,9 +1,16 @@
 :root {
+    --dark: hsla(0, 0%, 0%, 0.25);
+
+    --grey: hsl(228.8, 20%, 70%);
+    --blue: hsl(228.8, 90%, 50%);
+    --blue-medium: hsl(228.8, 80%, 15%);
+    --blue-deep: hsl(228.8, 80%, 10%);
+    --blue-dark: hsl(228.8, 80%, 5%);
+
     --violet-dark: hsl(265, 100%, 25%);
     --violet: hsl(265, 80%, 35%);
     --violet-white: hsl(265, 60%, 45%);
-    --grey: hsla(0, 0%, 0%, 0.5);
-    --grey-light: hsla(0, 0%, 0%, 0.25);
+
     font-family: 'Open Sans', sans-serif;
     margin: 0;
     padding: 0;
@@ -15,22 +22,22 @@ body {
     min-height: 100vh;
     flex-direction: column;
     justify-content: space-between;
-    color: var(--violet-dark);
+    color: white;
+    background-color: var(--blue-dark);
 }
-
 
 .link {
     cursor: pointer;
     text-decoration: none;
-    color: var(--violet-dark);
-    transition: color 0.5s ease-out, border-color 0.5s ease-out;
+    color: var(--blue);
     border-bottom: 0.1em dotted transparent;
+    filter: brightness(1.2);
+    transition: all 0.2s ease-in-out;
 }
 
 .link:hover {
-    color: var(--violet);
-    border-bottom: 0.1em dotted var(--violet);
-    transition: color 0.5s ease-out, border-color 0.5s ease-out;
+    border-color: var(--blue);
+    filter: brightness(1);
 }
 
 .hidden {
@@ -40,12 +47,11 @@ body {
     overflow: hidden;
 }
 
-
 /* header  */
 header {
     display: flex;
     align-items: center;
-    background-color: var(--violet-dark);
+    background-color: var(--blue-deep);
     height: 3em;
     padding-left: 10%;
 }
@@ -58,11 +64,17 @@ header a {
 }
 
 
-.home {
+main {
     width: 100%;
     padding: 0 10%;
     box-sizing: border-box;
     text-align: center;
+    margin: auto;
+}
+
+.home {
+    text-align: center;
+    max-width: 25em;
     margin: auto;
 }
 
@@ -83,36 +95,36 @@ header a {
     margin-top: 1em;
     font-size: 80%;
     color: var(--grey);
-    
+
 }
 
-.home img{
+.home img {
     width: 15em;
 }
 
 .home .button {
     margin: auto;
-    max-width: 15em;
+    margin-top: 2em;
+    width: 100%;
     display: block;
     cursor: pointer;
     text-decoration: none;
     color: white;
-    background-color: var(--violet-dark);
-    border: 0.1em solid white;
+    background-color: var(--blue-medium);
+    border: 0.1em solid var(--blue-medium);
     border-radius: 0.5em;
     padding: .5em;
-    transition: background-color 0.5s ease-out;
-
+    transition: filter 0.2s ease-out;
 }
 
 .home .button:hover {
-    background-color: var(--violet);
+    filter: brightness(1.2);
 }
 
 
 /* footer */
 footer {
-    background-color: var(--grey-light);
+    background-color: var(--dark);
     text-align: center;
     color: white;
 }
