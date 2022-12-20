@@ -1,0 +1,165 @@
+:root {
+    --red: hsl(7, 80%, 56%);
+    --green: hsl(125, 80%, 56%);
+
+    --dark: hsla(0, 0%, 0%, 0.25);
+
+    --grey: hsl(228.8, 20%, 70%);
+    --blue: hsl(228.8, 90%, 50%);
+    --blue-medium: hsl(228.8, 80%, 15%);
+    --blue-deep: hsl(228.8, 80%, 10%);
+    --blue-dark: hsl(228.8, 80%, 5%);
+
+    --violet-dark: hsl(265, 100%, 25%);
+    --violet: hsl(265, 80%, 35%);
+    --violet-white: hsl(265, 60%, 45%);
+
+    font-family: 'Open Sans', sans-serif;
+    margin: 0;
+    padding: 0;
+
+
+
+}
+
+body {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+    justify-content: space-between;
+    color: white;
+    background-color: var(--blue-dark);
+}
+
+.link {
+    cursor: pointer;
+    text-decoration: none;
+    color: var(--blue);
+    border-bottom: 0.1em dotted transparent;
+    filter: brightness(1.2);
+    transition: all 0.2s ease-in-out;
+}
+
+.link:hover {
+    border-color: var(--blue);
+    filter: brightness(1);
+}
+
+.hidden {
+    display: block;
+    height: 0;
+    width: 0;
+    overflow: hidden;
+}
+
+/* header  */
+header {
+    display: flex;
+    align-items: center;
+    background-color: var(--blue-deep);
+    height: 3em;
+    padding-left: 10%;
+}
+
+header a {
+    color: white;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 2em;
+}
+
+
+/* taskBoard */
+.taskBoard {
+    height: calc(100vh - 15em);
+    box-sizing: border-box;
+    padding: 0.5em 1em;
+    display: flex;
+
+}
+
+/* taskColumn */
+.taskColumn {
+    margin-right: 1em;
+    width: 22em;
+    min-width: 22em;
+    background-color: var(--dark);
+    display: grid;
+    grid-template-rows: 2em 1fr 2em;
+    border: 0.1em solid var(--blue-deep);
+    border-radius: 0.5em;
+    overflow: hidden;
+    padding: 0.5em;
+    box-sizing: border-box;
+}
+
+.taskColumn .titleColumn {
+    margin-top: 0;
+    border: none;
+    background-color: transparent;
+    box-sizing: border-box;
+    font-size: 1.2em;
+    color: white;
+}
+
+.taskColumn .titleColumn:focus {
+    outline: none;
+}
+
+.taskColumn .titleColumn::placeholder {
+    color: var(--grey);
+}
+
+/* taskList*/
+.taskColumn .taskList {
+    margin: 0;
+    padding: 0;
+    overflow-y: auto;
+    list-style: none;
+}
+
+.taskColumn .taskList .task {
+    cursor: grab;
+    background-color: var(--blue-deep);
+    border: 0.1em solid var(--blue-deep);
+    border-radius: 0.5em;
+    padding: 0.5em;
+    margin-bottom: 0.5em;
+
+}
+
+.taskColumn .taskList .task .identificationTask {
+    color: var(--grey);
+    font-size: 0.8em;
+    margin: 0;
+}
+
+.taskColumn .taskList .task .titleTask {
+    margin: 0.5em 0;
+}
+
+.taskColumn .taskList .task .tagsTask span {
+    color: var(--grey);
+    font-size: 0.8em;
+    border-radius: 1em;
+    border: 0.1em solid var(--grey);
+    box-sizing: border-box;
+    padding: 0 0.5em;
+}
+
+
+.taskColumn .taskCreate {
+    cursor: pointer;
+    color: var(--grey);
+    border: 0.1em solid var(--blue-deep);
+    border-radius: 0.5em;
+    background-color: var(--blue-deep);
+}
+
+#taskColumnCreate {
+    cursor: pointer;
+    color: var(--grey);
+    border: 0.1em solid var(--blue-deep);
+    border-radius: 0.5em;
+    background-color: var(--dark);
+}
