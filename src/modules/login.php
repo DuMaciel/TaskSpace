@@ -9,7 +9,7 @@
         if($db::testPass($email, $password)){
             $_SESSION['user'] = $email;
             $_SESSION['Logged'] = true;
-            echo 'User Logged';
+            header('Location:/dashboard');
         }else{
             $_SESSION['Logged'] = false;
             $_SESSION['errorLogin']=true;
