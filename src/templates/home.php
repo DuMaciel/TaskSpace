@@ -19,8 +19,9 @@
     <header>
         <a href="/home">TaskSpace</a>
     </header>
-
-    <main class="home">
+    
+    <main>
+        <section class="home">
         <img src="/public/images/taskMenager.svg" alt="">
 
         <p class="title">Manage your tasks</p>
@@ -28,6 +29,7 @@
 
         <a class="button" href="/register">Get Started</a>
         <p class="reminder">Already have an account? <a class="link" href="/login">Log In</a></p>
+        </section>
     </main>
     
     <footer>

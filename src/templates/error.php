@@ -22,10 +22,12 @@
         <a href="./home">TaskSpace</a>
     </header>
 
-    <main class="error">
+    <main>
+        <section  class="error">
         <p class="art">404</p>
         <h2 class="title">The page you are looking for cannot be found.</h2>
         <p class="reminder">Go to <a class="link" href="/home">Home</a></p>
+        </section>
     </main>
 
 
