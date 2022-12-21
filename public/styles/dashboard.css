@@ -71,19 +71,19 @@ header a {
 }
 
 
-#navBoards{
+#boardsMenu{
     display: flex;
     background-color: var(--dark);
     padding: 0.75em 0.5em 0;
 }
-#navBoards ul{
+#boardsMenu ul{
     padding: 0;
     margin: 0;
     list-style: none;
     display: flex;
 }
 
-#navBoards ul li{
+#boardsMenu ul li{
     cursor: pointer;
     display: block;
     border-radius: 0.5em 0.5em 0 0;
@@ -93,28 +93,28 @@ header a {
     margin-right: 0.2em;
 }
 
-#navBoards ul li .titleBoard::placeholder {
+#boardsMenu ul li .titleBoard::placeholder {
     color: var(--grey);
 }
 
-#navBoards ul li .titleBoard:hover::placeholder,
-#navBoards ul li .titleBoard:hover{
+#boardsMenu ul li .titleBoard:hover::placeholder,
+#boardsMenu ul li .titleBoard:hover{
     color: white;
 }
 
-#navBoards ul li .titleBoard:read-only {
+#boardsMenu ul li .titleBoard:read-only {
     cursor: pointer;
     width: 7.5em;
 }
 
-#navBoards ul li.active,
-#navBoards ul li.active .titleBoard{
+#boardsMenu ul li.active,
+#boardsMenu ul li.active .titleBoard{
     background-color: var(--blue-deep);
     color: white;
 }
 
 
-#navBoards ul li .titleBoard {
+#boardsMenu ul li .titleBoard {
     display: block;
     margin-top: 0;
     border: none;
@@ -125,13 +125,13 @@ header a {
     padding: 0;
 }
 
-#navBoards ul li .titleBoard:focus {
+#boardsMenu ul li .titleBoard:focus {
     outline: none;
     color: white;
 }
 
 
-#navBoards #createBoard{
+#boardsMenu #createBoard{
     cursor: pointer;
     color: var(--grey);
     border: 0.1em solid var(--blue-deep);
@@ -140,7 +140,7 @@ header a {
     background-color: var(--dark);
     transition: background-color 0.3s ease;
 }
-#navBoards #createBoard:hover{
+#boardsMenu #createBoard:hover{
     color: white;
     background-color: var(--blue-deep);
 }
@@ -155,11 +155,14 @@ header a {
 
 /* taskBoard */
 .board {
-    height: calc(100vh - 8em);
+    display: none;
+}
+.board.active{
     box-sizing: border-box;
     display: flex;
     overflow-x: auto;
 }
+
 .board::-webkit-scrollbar {
     height: 0.8em;
     background-color: transparent;
@@ -168,6 +171,12 @@ header a {
     border-bottom: 0.5em solid var(--grey);
 }
 
+
+.columns{
+    height: calc(100vh - 8.5em);
+    box-sizing: border-box;
+    display: flex;
+}
 
 /* co.column */
 .column {
