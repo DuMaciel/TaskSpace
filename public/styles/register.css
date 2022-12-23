@@ -1,6 +1,5 @@
 :root {
     --red: hsl(7, 80%, 56%);
-    --green: hsl(125, 80%, 56%);
 
     --dark: hsla(0, 0%, 0%, 0.25);
 
@@ -84,7 +83,6 @@ header a {
     padding: 0.5em;
     margin-bottom: 0;
 }
-
 
 .register .title {
     font-size: 175%;

@@ -28,7 +28,6 @@
             <?php
             include realpath(__DIR__ .'/components/emailRegistred.php');
             include realpath(__DIR__ .'/components/errorRegistering.php');
-            include realpath(__DIR__ .'/components/successRegistering.php');
             ?>
             <label class="hidden" for="name">Name</label>
             <input type="text" id="name" name="name" placeholder="Enter your name" required autofocus>

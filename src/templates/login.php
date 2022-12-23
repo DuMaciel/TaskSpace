@@ -24,7 +24,8 @@
             <p class="title">Hello Again!</p>
             <p class="caption">Welcome To Your<br>TaskSpace</p>
             <?php
-            include realpath(__DIR__ .'/components/errorLogin.php')
+            include realpath(__DIR__ .'/components/errorLogin.php');
+            include realpath(__DIR__ .'/components/successRegistering.php');
             ?>
             <label class="hidden" for="email">Email</label>
             <input type="email" id="email" name="email" placeholder="Enter your email" required autofocus>
