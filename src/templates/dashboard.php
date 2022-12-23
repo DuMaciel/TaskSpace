@@ -48,9 +48,12 @@
                     <button class="createTask">+ Add Task</button>
                 </div>
                 
-                
-            </div>
-            <button class="createColumn">+</button>
+    <div id="taskModal">
+        <input type="text" class="title" placeholder="Enter to task title here">
+        <textarea class="description" placeholder="Enter task description here..."></textarea>
+        <div class="actions">
+            <button class="cancel">Cancel</button>
+            <button class="confirm">Confirm</button>
         </div>
     </div>
 </body>

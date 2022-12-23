@@ -220,6 +220,8 @@ header a {
     list-style: none;
     border-top: 0.1em solid var(--blue-deep);
     border-bottom: 0.1em solid var(--blue-deep);
+
+    position: relative;
 }
 
 .column .listTask::-webkit-scrollbar {
@@ -250,6 +252,7 @@ header a {
 }
 
 .column .listTask .task .titleTask {
+    text-align: justify;
     margin: 0.5em 0;
 }
 
@@ -286,3 +289,81 @@ header a {
     color: white;
     background-color: var(--blue-deep);
 }
+
+
+/* task modal */
+#taskModal{
+    display: none;
+}
+
+#taskModal.active{
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    width: 45em;
+    max-width: 90%;
+    height: calc(100vh - 2.9em);
+    padding: 1em;
+    background-color: var(--blue-dark);
+    border: 0.1em solid var(--blue-deep);
+    box-sizing: border-box;
+
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 3em 1fr 3em;
+    gap: 1em;
+}
+
+#taskModal textarea{
+    background-color: var(--dark);
+    border: 0.1em solid var(--blue-deep);
+    border-radius: 0.5em;
+    resize: none;
+    color: white;
+    padding: 0.5em;
+}
+
+#taskModal input{
+    background-color: var(--dark);
+    border: 0.1em solid var(--blue-deep);
+    border-radius: 0.5em;
+    resize: none;
+    color: white;
+    padding: 0.5em;
+}
+
+#taskModal .actions{
+    text-align: end;
+}
+
+#taskModal .actions button{
+    cursor: pointer;
+    background-color: var(--dark);
+    border: 0.1em solid var(--grey);
+    border-radius: 0.5em;
+    padding: 0.5em 1em;
+    color: white;
+    margin-left: 0.5em;
+}
+
+#taskModal .actions .confirm {
+
+}
+
+#taskModal .actions .confirm {
+    background-color: var(--green);
+    border-color: var(--green);
+}
+
+
+
+/* .column .listTask::after{ 
+    content: '';
+    display: block;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 0.5em;
+    border-radius: 0.5em;
+    background-color: white;
+} */
