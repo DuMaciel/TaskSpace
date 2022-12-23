@@ -5,6 +5,8 @@ const navBoards = document.getElementById('navBoards')
 
 const butCreateBoard = document.getElementById('createBoard')
 
+const taskModal = document.getElementById('taskModal')
+
 butCreateBoard.addEventListener('click', () => createBoard())
 
 
@@ -93,7 +95,7 @@ function createColumn(name = '', arrayTask = []){
     const butCreateTask = document.createElement('button')
     butCreateTask.classList.add('createTask')
     butCreateTask.innerText = '+ Add Task'
-    butCreateTask.addEventListener('click', ()=> listTask.appendChild(createTask('teste',[],'id')))
+    butCreateTask.addEventListener('click', ()=> openModal(listTask))
     column.appendChild(butCreateTask)
 
     return column
@@ -102,7 +104,7 @@ function createColumn(name = '', arrayTask = []){
 
 
 // Task builder and the functions it depends on ----------------------------------
-function createTask(name, arrayTag = [], id){
+function createTask(id, name, arrayTag = []){
     const task = document.createElement('li')
     task.classList.add('task')
     task.draggable = true
@@ -115,6 +117,7 @@ function createTask(name, arrayTag = [], id){
     const titleTask = document.createElement('p')
     titleTask.classList.add('titleTask')
     titleTask.innerText = name
+    titleTask.addEventListener('click',()=> openModal(undefined, task))
     task.appendChild(titleTask)
 
     const tagsTask = document.createElement('div')
@@ -126,4 +129,34 @@ function createTask(name, arrayTag = [], id){
     task.appendChild(tagsTask)
 
     return task
+}
+
+
+function openModal(listTask, task = undefined){
+    taskModal.classList.add('active')
+    const cancel = taskModal.querySelector('.cancel')
+    cancel.addEventListener('click', ()=> taskModal.classList.remove('active'))
+    const confirm = taskModal.querySelector('.confirm')
+
+    if(!task){
+    confirm.addEventListener('click', function modalCreateTask(){
+        const title = taskModal.querySelector('.title')
+        listTask.appendChild(createTask(1, title.value))
+        title.value = ''     
+        taskModal.classList.remove('active')
+        confirm.removeEventListener('click', modalCreateTask)
+    })
+    }else{
+        const title = taskModal.querySelector('.title')
+        const titleTask = task.querySelector('.titleTask')
+        title.value = titleTask.innerText
+
+    confirm.addEventListener('click', function modalRefreshTask(){
+        titleTask.innerText = title.value
+        title.value = ''     
+        taskModal.classList.remove('active')
+        confirm.removeEventListener('click', modalRefreshTask)
+    })
+    }
+
 }
