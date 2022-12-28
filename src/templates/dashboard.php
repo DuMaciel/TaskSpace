@@ -12,7 +12,8 @@
 
     <link rel="stylesheet" href="/public/styles/normalize.css">
     <link rel="stylesheet" href="/public/styles/dashboard.css">
-    <title>To Do List | Organize seu dia!</title>
+    <title>Your TaskSpace</title>
+
 </head>
 <body>
     <header>
@@ -22,32 +23,14 @@
 
     <div id='boardsMenu'>
         <ul id="navBoards">
-            <li class="active">
-            <input class="titleBoard" type="text" placeholder="New Board" maxlength="20" >
-            </li>
-
+            
         </ul>
         <button id="createBoard">+</button>
     </div>
     <div id="boards">
-        <div class="board active">
-            <div class="columns">
-                <div class="column">
-                    <input class="titleColumn" type="text" placeholder="New Column" maxlength="30">
-                    <ul class="listTask">
-                        <li id="1"class="task" draggable="true">
-                            <p class="identificationTask">boardName#id</p>
-                            <p class="titleTask">Task aqui</p>
-                            <div class="tagsTask">
-                                <span>tag1</span>
-                                <span>tag2</span>
-                                <span>tag3</span>
-                            </div>
-                        </li>
-                    </ul>
-                    <button class="createTask">+ Add Task</button>
-                </div>
-                
+       
+    </div>
+
     <div id="taskModal">
         <input type="text" class="title" placeholder="Enter to task title here">
         <textarea class="description" placeholder="Enter task description here..."></textarea>
@@ -57,6 +40,7 @@
         </div>
     </div>
 </body>
+
 
 <script src="/public/scripts/dashboard.js"></script>
 </html>

@@ -1,3 +1,36 @@
+// variable corresponding to the data that I will receive from the server updated and returned
+const boards = [
+    {
+        id: 1,
+        title: 'Meu Board',
+        taskCount: 7,
+        columns: [{
+            id: 1,
+            title: "Coluna 1",
+            tasks:  [{id: 1, title: 'Minha task 1', descripition: 'minha task bla bla'}, {id: 2, title: 'Minha task 2', descripition: 'minha task bla bla'},{id: 3, title: 'Minha task 3', descripition: 'minha task bla bla'}, {id: 4, title: 'Minha task 4', descripition: 'minha task bla bla'}]
+        },
+        {
+            id: 2,
+            title: "Coluna 2",
+            tasks: [{id: 5, title: 'Minha task 5', descripition: 'minha task bla bla'}, {id: 6, title: 'Minha task 6', descripition: 'minha task bla bla'}, {id: 7, title: 'Minha task 7', descripition: 'minha task bla bla'}]
+        }],
+    },
+    {
+        id: 2,
+        title: 'Meu Board 2',
+        taskCount: 7,
+        columns: [{
+            id: 1,
+            title: "Coluna 1",
+            tasks:  [{id: 1, title: 'Minha task 1', descripition: 'minha task bla bla'}, {id: 2, title: 'Minha task 2', descripition: 'minha task bla bla'},{id: 3, title: 'Minha task 3', descripition: 'minha task bla bla'}, {id: 4, title: 'Minha task 4', descripition: 'minha task bla bla'}]
+        },
+        {
+            id: 2,
+            title: "Coluna 2",
+            tasks: [{id: 5, title: 'Minha task 5', descripition: 'minha task bla bla'}, {id: 6, title: 'Minha task 6', descripition: 'minha task bla bla'}, {id: 7, title: 'Minha task 7', descripition: 'minha task bla bla'}]
+        }],
+    }
+];
 
 const areaBoards = document.getElementById('boards')
 
@@ -7,13 +40,17 @@ const butCreateBoard = document.getElementById('createBoard')
 
 const taskModal = document.getElementById('taskModal')
 
-butCreateBoard.addEventListener('click', () => createBoard())
-
+butCreateBoard.addEventListener('click', () => {
+    let id = boardIdGenerator()
+    boards.push({id, title: 'New Board', columns: [], tasks: []})
+    createBoard(id)
+})
 
 // board builder and the functions it depends on ----------------------------------
-function createBoard(name = '', arrayColumn = []){
+function createBoard(id ,name = '', arrayColumn = []){
     // creating board item and your configuration
     const board = document.createElement('div')
+    board.dataset.boardId = id
     board.classList.add('board')
 
     const columns = document.createElement('div')
@@ -27,13 +64,17 @@ function createBoard(name = '', arrayColumn = []){
     const butCreateColumn = document.createElement('button')
     butCreateColumn.classList.add('createColumn')
     butCreateColumn.innerText = '+'
-    butCreateColumn.addEventListener('click', () => columns.appendChild(createColumn()))
+    butCreateColumn.addEventListener('click', () => {
+        columns.appendChild(createColumn())
+
+    })
     board.appendChild(butCreateColumn)
 
     areaBoards.appendChild(board)
 
     // creating nav item and your configuration
     const navBoard = document.createElement('li')
+    navBoard.id = `board${id}`
     
     const titleBoard = document.createElement('input')
     titleBoard.classList.add('titleBoard')
@@ -43,11 +84,16 @@ function createBoard(name = '', arrayColumn = []){
     titleBoard.readOnly= true
     titleBoard.value= name
     titleBoard.addEventListener('dblclick', ()=> {titleBoard.readOnly= false})
-    titleBoard.addEventListener('focusout', ()=> {titleBoard.readOnly= true})
+    titleBoard.addEventListener('focusout', ()=> {
+        titleBoard.readOnly= true
+        boardRefreshName(id, titleBoard.value)
+    })
     navBoard.appendChild(titleBoard)
 
     navBoard.addEventListener('click', () => activeBoard(navBoard, board))
     navBoards.appendChild(navBoard)
+
+    return navBoard
 }
 
 function activeBoard(navBoard, board){
@@ -62,15 +108,41 @@ function deactivateAll(){
     const navBoardsChildrens = document.querySelectorAll('#navBoards > li')
     navBoardsChildrens.forEach((item,index)=>{
         item.classList.remove('active')
-        console.log(areaBoardsChildrens[index])
         areaBoardsChildrens[index].classList.remove('active')
+    })
+}
+
+function boardIdGenerator(){
+    let i;
+    let exist = false;
+    for(i=1 ; ; i++){
+        for(j=0; j<boards.length; j++){
+            if(boards[j].id == i){
+                exist = true;
+                break;
+            }
+        }
+        if(!exist){
+            return i
+        }else{
+            exist = false
+        }
+    }
+}
+
+function boardRefreshName(id, title){
+    boards.forEach(board => {
+        if(board.id == id){
+            board.title = title
+        }
     })
 }
 
 
 // column builder and the functions it depends on ----------------------------------
-function createColumn(name = '', arrayTask = []){
+function createColumn(id, name = '', arrayTask = []){
     const column = document.createElement('div')
+    column.dataset.columnId = id
     column.classList.add('column')
 
     const titleColumn = document.createElement('input')
@@ -106,6 +178,7 @@ function createColumn(name = '', arrayTask = []){
 // Task builder and the functions it depends on ----------------------------------
 function createTask(id, name, arrayTag = []){
     const task = document.createElement('li')
+    task.dataset.taskId = id
     task.classList.add('task')
     task.draggable = true
 
@@ -159,4 +232,28 @@ function openModal(listTask, task = undefined){
     })
     }
 
+}
+
+
+// initializing dashboard
+const copyBoards = [...boards]
+copyBoards.forEach((board, index) => {
+    const navBoard = boardBuilder(board)
+    if(index === 0){
+        const click = new Event('click')
+        navBoard.dispatchEvent(click)
+    }
+})
+
+function boardBuilder(board){
+    const columns = board.columns
+
+    columns.forEach((column,index,array) => {
+        const tasks = column.tasks
+        tasks.forEach((task, index, array)=>{
+            array[index] = createTask(task.id, task.title)
+        })
+        array[index] = createColumn(column.id, column.title, tasks)
+    })
+    return createBoard(board.id,board.title, columns)
 }
