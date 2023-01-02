@@ -34,6 +34,7 @@ const boards = [
     }
 ];
 
+
 const areaBoards = document.getElementById('boards')
 
 const navBoards = document.getElementById('navBoards')
@@ -43,9 +44,9 @@ const butCreateBoard = document.getElementById('createBoard')
 const taskModal = document.getElementById('taskModal')
 
 butCreateBoard.addEventListener('click', () => {
-    let id = boardIdGenerator()
-    boards.push({id, title: 'New Board', columns: [], tasks: []})
-    createBoard(id)
+    const board = {id: boardIdGenerator(), title: '', columnsCount: 0, taskCount: 0, columns: []}
+    boards.push(board)
+    createBoard(board)
 })
 
 function activeBoard(navBoard, board){
@@ -166,8 +167,9 @@ function createColumn(columnData){
     butCreateTask.innerText = '+ Add Task'
     butCreateTask.addEventListener('click',()=> {
         const taskData = {id: ++boardData.taskCount, title: '', description: ''}
-        const task = listTask.appendChild(createTask(taskData))
-        openModal(task)
+        const task = createTask(taskData)
+        columnData.tasks.push(taskData)
+        openModal(task, listTask)
     }
     )
     column.appendChild(butCreateTask)
@@ -211,31 +213,39 @@ function createTask(taskData){
 
 }
 
-function openModal(task){
-    taskModal.classList.add('active')
+// modal 
+function openModal(task , listTask = undefined){
     const title = taskModal.querySelector('.title')
-    title.value = task.querySelector('.titleTask').innerText
     const description = taskModal.querySelector('.description')
-    description.value = task.dataset.description
+    cleanModal()
     const cancel = taskModal.querySelector('.cancel')
-    cancel.addEventListener('click', funCancel)
-
     const confirm = taskModal.querySelector('.confirm')
-    confirm.addEventListener('click', funconfirm)
-
+    taskModal.classList.add('active')
+    if(!listTask){
+        title.value = task.querySelector('.titleTask').innerText
+        description.value = task.dataset.description
+     }   
+        cancel.addEventListener('click', funCancel)
+        confirm.addEventListener('click', funconfirm)
+    
     function funCancel(){
         taskModal.classList.remove('active')
         cancel.removeEventListener('click', funCancel)
         confirm.removeEventListener('click', funconfirm)
     }
     function funconfirm(){
-        
-        taskModal.classList.remove('active')
         taskModal.classList.remove('active')
         task.querySelector('.titleTask').innerText = title.value
         task.dataset.description = description.value
         cancel.removeEventListener('click', funCancel)
         confirm.removeEventListener('click', funconfirm)
+        if(listTask){
+            listTask.appendChild(task)
+        }
+    }
+    function cleanModal(){
+        title.value = ''
+        description.value = ''
     }
 
 }
@@ -290,7 +300,7 @@ function dragTaskConfig(task){
         event.stopPropagation()
         if(!event.target) return
         event.target.classList.remove('emphasis')
-
+        
         const taskTransferring = document.getElementById('transferring')
         if(taskTransferring){
         taskTransferring.id = ''
