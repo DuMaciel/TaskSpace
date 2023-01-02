@@ -136,6 +136,7 @@ function createBoard(boardData){
 function createColumn(columnData){
     const column = document.createElement('div')
     column.dataset.columnId = columnData.id
+    dragColumnConfig(column)
     column.classList.add('column')
 
     const titleColumn = document.createElement('input')
@@ -179,6 +180,7 @@ function createTask(taskData){
     const task = document.createElement('li')
     task.dataset.taskId = taskData.id
     task.classList.add('task')
+    dragTaskConfig(task)
     task.dataset.description = taskData.description
     task.draggable = true
 
@@ -192,7 +194,7 @@ function createTask(taskData){
     titleTask.classList.add('titleTask')
     titleTask.innerText = taskData.title
     titleTask.addEventListener('click',()=>{
-        openModal(task, task)
+        openModal(task)
     })
     task.appendChild(titleTask)
 
@@ -248,3 +250,51 @@ boards.forEach((board, index) => {
 })
 
 
+// drag and drop config 
+function dragColumnConfig(column){
+    column.addEventListener('dragover', (event)=>{
+        event.preventDefault()
+    })
+    column.addEventListener('dragenter', (event)=>{
+        event.target.classList.add('emphasis')
+    })
+    column.addEventListener('dragleave', (event)=>{
+        event.target.classList.remove('emphasis')
+    })
+    column.addEventListener('drop', (event)=>{
+        event.stopPropagation()
+        event.target.classList.remove('emphasis')
+        if(!event.target) return
+        
+        const taskTransferring = document.getElementById('transferring')
+        if(taskTransferring){
+        taskTransferring.id = ''
+        column.querySelector('.listTask').appendChild(taskTransferring)
+        }
+    })
+}
+
+function dragTaskConfig(task){
+    task.addEventListener('dragstart', (event)=> {
+        if(!event.target) return
+        if(event.target.classList.contains('task')){
+            event.target.id = 'transferring'
+            return
+        }
+            event.stopPropagation();
+            event.preventDefault();
+            event.cancelBubble=true;
+            event.returnValue=false;
+    })
+    task.addEventListener('drop', (event)=> {
+        event.stopPropagation()
+        if(!event.target) return
+        event.target.classList.remove('emphasis')
+
+        const taskTransferring = document.getElementById('transferring')
+        if(taskTransferring){
+        taskTransferring.id = ''
+        task.parentElement.insertBefore(taskTransferring, task)
+        }
+    })
+}
