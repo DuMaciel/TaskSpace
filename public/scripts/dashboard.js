@@ -137,8 +137,8 @@ function createBoard(boardData){
 function createColumn(columnData){
     const column = document.createElement('div')
     column.dataset.columnId = columnData.id
-    dragColumnConfig(column)
     column.classList.add('column')
+    column.draggable = true
 
     const titleColumn = document.createElement('input')
     titleColumn.classList.add('titleColumn')
@@ -161,6 +161,7 @@ function createColumn(columnData){
         listTask.appendChild(createTask(task))
     })
     column.appendChild(listTask)
+    dragColumnConfig(column)
 
     const butCreateTask = document.createElement('button')
     butCreateTask.classList.add('createTask')
@@ -262,49 +263,85 @@ boards.forEach((board, index) => {
 
 // drag and drop config 
 function dragColumnConfig(column){
-    column.addEventListener('dragover', (event)=>{
+    const listTask = column.querySelector('.listTask')
+
+    column.addEventListener('dragstart', (event)=> {
+        if(event.target.nodeType != 1) return
+        if(event.target.classList.contains('column')) event.target.id = 'columnTransferring'
+        event.dataTransfer.effectAllowed = 'move'
+    })
+    column.addEventListener('dragover', (event)=> {
         event.preventDefault()
-    })
-    column.addEventListener('dragenter', (event)=>{
-        event.target.classList.add('emphasis')
-    })
-    column.addEventListener('dragleave', (event)=>{
-        event.target.classList.remove('emphasis')
-    })
-    column.addEventListener('drop', (event)=>{
+        event.dataTransfer.dropEffect = 'move'
+        const taskTransferring = document.getElementById('taskTransferring')
+        if(taskTransferring){
+            listTask.classList.add('emphasis')
+        }else{
+            column.classList.add('emphasis')
+        }
         event.stopPropagation()
+    })
+    column.addEventListener('dragleave', (event)=> {
+        event.preventDefault()
+        const taskTransferring = document.getElementById('taskTransferring')
+        if(taskTransferring){
+            listTask.classList.remove('emphasis')
+        }else{
+            column.classList.remove('emphasis')
+        }
+        event.stopPropagation()
+    })
+
+    column.addEventListener('drop', (event)=>{
+        column.classList.remove('emphasis')
+        listTask.classList.remove('emphasis')
         event.target.classList.remove('emphasis')
-        if(!event.target) return
+        if(event.target.nodeType != 1) return
         
-        const taskTransferring = document.getElementById('transferring')
+        const taskTransferring = document.getElementById('taskTransferring')
         if(taskTransferring){
         taskTransferring.id = ''
         column.querySelector('.listTask').appendChild(taskTransferring)
+        }
+
+        const columnTransferring = document.getElementById('columnTransferring')
+        if(columnTransferring){
+            columnTransferring.id = ''
+            column.parentElement.insertBefore(columnTransferring, column)
         }
     })
 }
 
 function dragTaskConfig(task){
     task.addEventListener('dragstart', (event)=> {
-        if(!event.target) return
-        if(event.target.classList.contains('task')){
-            event.target.id = 'transferring'
-            return
-        }
-            event.stopPropagation();
-            event.preventDefault();
-            event.cancelBubble=true;
-            event.returnValue=false;
+        if(event.target.nodeType != 1) return
+        if(event.target.classList.contains('task')) event.target.id = 'taskTransferring'
     })
+    task.addEventListener('dragover', (event)=> {
+        event.preventDefault()
+        const taskTransferring = document.getElementById('taskTransferring')
+        if(taskTransferring) task.classList.add('emphasis') 
+    })
+    task.addEventListener('dragleave', (event)=> {
+        event.preventDefault()
+        task.classList.remove('emphasis')
+    })
+
     task.addEventListener('drop', (event)=> {
-        event.stopPropagation()
-        if(!event.target) return
-        event.target.classList.remove('emphasis')
+        if(event.target.nodeType != 1) return
+        task.classList.remove('emphasis')
         
-        const taskTransferring = document.getElementById('transferring')
+        const taskTransferring = document.getElementById('taskTransferring')
         if(taskTransferring){
         taskTransferring.id = ''
         task.parentElement.insertBefore(taskTransferring, task)
         }
+
+        const columnTransferring = document.getElementById('columnTransferring')
+        if(columnTransferring){
+            columnTransferring.id = ''
+            task.parentElement.parentElement.parentElement.insertBefore(columnTransferring, task.parentElement.parentElement)
+        }
     })
 }
+

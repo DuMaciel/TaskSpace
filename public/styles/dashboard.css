@@ -148,7 +148,7 @@ header a {
 /* boards */
 #boards{
     border-top: 1em solid var(--blue-deep);
-    padding: 0.5em 0.5em 0;
+    padding: 0.5em 0.5em 0 0;
 }
 
 
@@ -171,11 +171,13 @@ header a {
     border-bottom: 0.5em solid var(--grey);
 }
 
-
 .columns{
     height: calc(100vh - 8.5em);
     box-sizing: border-box;
     display: flex;
+}
+.columns:first-child{
+    margin-left: 0.5em;
 }
 
 /* co.column */
@@ -185,16 +187,16 @@ header a {
     min-width: 22em;
     background-color: var(--dark);
     display: grid;
-    grid-template-rows: 2em 1fr 2em;
+    grid-template-rows: auto 1fr auto;
     border: 0.1em solid var(--blue-deep);
     border-radius: 0.5em;
-    overflow: hidden;
-    padding: 0.5em;
+    /* padding: 0.5em; */
     box-sizing: border-box;
+    position: relative;
 }
 
 .column .titleColumn {
-    margin-top: 0;
+    margin: 0.5em;
     border: none;
     background-color: transparent;
     box-sizing: border-box;
@@ -214,18 +216,20 @@ header a {
 /* listTask*/
 .column .listTask {
     margin: 0;
-    padding: 0.5em 0 0;
-    margin-bottom: 0.5em;
+    padding: 0.5em;
     overflow-y: auto;
     list-style: none;
     border-top: 0.1em solid var(--blue-deep);
     border-bottom: 0.1em solid var(--blue-deep);
-
-    position: relative;
+    border-image-source: linear-gradient(90deg, transparent 2.5%, rgba(5,13,46,1) 2.5%, rgba(5,13,46,1) 97.5%, transparent  97.5%);
+    border-image-slice: 1;
+    border-radius: 0.5em;
+    transition: background-color 0.2s ease;
+    transition-delay: 0.1s;
 }
 
 .column .listTask::-webkit-scrollbar {
-    width: 0.3em;
+    width: 0em;
     background-color: transparent;
 }
 .column .listTask::-webkit-scrollbar-thumb {
@@ -233,6 +237,7 @@ header a {
 }
 
 .column .listTask .task {
+    position: relative;
     cursor: grab;
     background-color: var(--blue-deep);
     border: 0.1em solid var(--blue-deep);
@@ -241,6 +246,7 @@ header a {
     margin-bottom: 0.5em;
 
 }
+
 .column .listTask .task:hover {
     filter: brightness(1.2);
 }
@@ -267,6 +273,8 @@ header a {
 
 
 .column .createTask {
+    margin: 0.5em;
+    padding: 0.5em;
     cursor: pointer;
     color: var(--grey);
     border: 0.1em solid var(--blue-deep);
@@ -347,23 +355,56 @@ header a {
 }
 
 #taskModal .actions .confirm {
-
-}
-
-#taskModal .actions .confirm {
     background-color: var(--green);
     border-color: var(--green);
 }
 
 
 
-/* .column .listTask::after{ 
+/* emphasis */
+.column::after{ 
     content: '';
     display: block;
     position: absolute;
-    top: 0;
+    top: 0em;
+    left: -0.45em;
+    width: 0.2em;
+    height: 100%;
+    border: none;
+    border-radius: 0.1em;
+    background-color: transparent;
+    transition: background-color 0.2s ease;
+    transition-delay: 0.1s;
+}
+.column.emphasis::after{ 
+    transition-delay: 0s;
+    background-color: var(--blue);
+}
+
+.column .listTask.emphasis{
+    transition-delay: 0s;
+    background-color: var(--blue-dark);
+}
+
+.column .listTask .task::after{ 
+    content: '';
+    display: block;
+    position: absolute;
+    top: -0.45em;
+    left: 0;
     width: 100%;
-    height: 0.5em;
-    border-radius: 0.5em;
-    background-color: white;
-} */
+    height: 0.2em;
+    border: none;
+    border-radius: 0.1em;
+    background-color: transparent;
+    transition: background-color 0.2s ease;
+    transition-delay: 0.1s;
+}
+
+.column .listTask .task.emphasis::after{ 
+    transition-delay: 0s;
+    background-color: var(--blue);
+}
+
+
+
