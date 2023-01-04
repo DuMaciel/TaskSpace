@@ -3,8 +3,8 @@ const boards = [
     {
         id: 1,
         title: 'Meu Board',
-        columnsCount: 2,
-        taskCount: 7,
+        columnId: 3,
+        taskId: 8,
         columns: [{
             id: 1,
             title: "Coluna 1",
@@ -19,8 +19,8 @@ const boards = [
     {
         id: 2,
         title: 'Meu Board 2',
-        columnsCount: 2,
-        taskCount: 7,
+        columnId: 3,
+        taskId: 8,
         columns: [{
             id: 1,
             title: "Coluna 1",
@@ -44,7 +44,7 @@ const butCreateBoard = document.getElementById('createBoard')
 const taskModal = document.getElementById('taskModal')
 
 butCreateBoard.addEventListener('click', () => {
-    const board = {id: boardIdGenerator(), title: '', columnsCount: 0, taskCount: 0, columns: []}
+    const board = {id: boardIdGenerator(), title: '', columnId: 1, taskId: 1, columns: []}
     boards.push(board)
     createBoard(board)
 })
@@ -94,7 +94,7 @@ function createBoard(boardData){
     columns.classList.add('columns')
     //add all columns 
     boardData.columns.forEach((columnData)=>{
-        columns.appendChild(createColumn(columnData))
+        columns.appendChild(createColumn(columnData ,boardData))
     })
     board.appendChild(columns)
 
@@ -102,9 +102,8 @@ function createBoard(boardData){
     butCreateColumn.classList.add('createColumn')
     butCreateColumn.innerText = '+'
     butCreateColumn.addEventListener('click', () => {
-        columnData = {id: ++boardData.columnsCount, title: '' , tasks: []}
-        boardData.columns.push(columnData)
-        columns.appendChild(createColumn(columnData))
+        columnData = {id: boardData.columnId++, title: '' , tasks: []}
+        columns.appendChild(createColumn(columnData ,boardData))
     })
     board.appendChild(butCreateColumn)
 
@@ -132,9 +131,9 @@ function createBoard(boardData){
     navBoards.appendChild(navBoard)
 
     return navBoard
-
+}
 // column builder and the functions it depends on ----------------------------------
-function createColumn(columnData){
+function createColumn(columnData, boardData){
     const column = document.createElement('div')
     column.dataset.columnId = columnData.id
     column.classList.add('column')
@@ -150,7 +149,6 @@ function createColumn(columnData){
     titleColumn.addEventListener('dblclick', ()=> {titleColumn.readOnly= false})
     titleColumn.addEventListener('focusout', ()=> {
         titleColumn.readOnly= true
-        columnData.title = titleColumn.value
     })
     column.appendChild(titleColumn)
 
@@ -161,15 +159,15 @@ function createColumn(columnData){
         listTask.appendChild(createTask(task))
     })
     column.appendChild(listTask)
+
     dragColumnConfig(column)
 
     const butCreateTask = document.createElement('button')
     butCreateTask.classList.add('createTask')
     butCreateTask.innerText = '+ Add Task'
     butCreateTask.addEventListener('click',()=> {
-        const taskData = {id: ++boardData.taskCount, title: '', description: ''}
+        const taskData = {id: boardData.taskId++, title: '', description: ''}
         const task = createTask(taskData)
-        columnData.tasks.push(taskData)
         openModal(task, listTask)
     }
     )
@@ -210,8 +208,6 @@ function createTask(taskData){
     task.appendChild(tagsTask)
 
     return task
-}
-
 }
 
 // modal 
