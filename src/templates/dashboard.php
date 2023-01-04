@@ -38,7 +38,9 @@
             <button class="cancel">Cancel</button>
             <button class="confirm">Confirm</button>
         </div>
+        
     </div>
+    <div class="background"></div>
 </body>
 
 
