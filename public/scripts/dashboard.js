@@ -69,7 +69,7 @@ function boardIdGenerator(){
     let i;
     let exist = false;
     for(i=1 ; ; i++){
-        for(j=0; j<boards.length; j++){
+        for(let j=0; j<boards.length; j++){
             if(boards[j].id == i){
                 exist = true;
                 break;
@@ -98,14 +98,14 @@ function createBoard(boardData){
     })
     board.appendChild(columns)
 
-    const observer = new MutationObserver(observerColumns)
+    const observer = new MutationObserver((mutations, observer) => observerColumns(mutations, observer, boards))
     observer.observe(columns, {childList: true})
 
     const butCreateColumn = document.createElement('button')
     butCreateColumn.classList.add('createColumn')
     butCreateColumn.innerText = '+'
     butCreateColumn.addEventListener('click', () => {
-        columnData = {id: boardData.columnId++, title: '' , tasks: []}
+        const columnData = {id: boardData.columnId++, title: '' , tasks: []}
         columns.appendChild(createColumn(columnData ,boardData))
     })
     board.appendChild(butCreateColumn)
@@ -155,8 +155,8 @@ function createColumn(columnData, boardData){
     })
     column.appendChild(titleColumn)
 
-    const observerTitle = new MutationObserver(observerTitleColumn)
-    observerTitle.observe(titleColumn, {attributes: true, attributeFilter: ['value']})
+    const observerTitle = new MutationObserver((mutations, observer) => observerTitleColumn(mutations, observer, boards))
+    observerTitle.observe(titleColumn, {attributes: true})
 
     const listTask = document.createElement('listTask')
     listTask.classList.add('listTask')
@@ -167,7 +167,7 @@ function createColumn(columnData, boardData){
     column.appendChild(listTask)
 
     dragColumnConfig(column)
-    const observerList = new MutationObserver(observerListTask)
+    const observerList = new MutationObserver((mutations, observer) => observerListTask(mutations, observer, boards))
     observerList.observe(listTask, {childList: true})
 
     const butCreateTask = document.createElement('button')
@@ -214,7 +214,7 @@ function createTask(taskData){
     //     tagsTask.appendChild(tag)
     // })
     task.appendChild(tagsTask)
-    const observer = new MutationObserver(observerTask)
+    const observer = new MutationObserver((mutations, observer) => observerTask(mutations, observer, boards))
     observer.observe(task, {attributes: true, attributeFilter: ['data-description']})
 
     return task
@@ -351,8 +351,8 @@ function dragTaskConfig(task){
     })
 }
 
-// mutations observers 
-function observerListTask(mutations , observer){
+//mutations observers 
+function observerListTask(mutations , observer, boards){
     mutations.forEach(mutation => {
         const columnDOM = mutation.target.parentElement
         const boardDOM = getBoardFromColumn(columnDOM)
@@ -382,7 +382,7 @@ function observerListTask(mutations , observer){
     })
 }
 
-function observerTask(mutations , observer){
+function observerTask(mutations , observer, boards){
     mutations.forEach(mutation => {
         const taskDOM = mutation.target
         const columnDOM = getColumnFromTask(taskDOM)
@@ -399,7 +399,7 @@ function observerTask(mutations , observer){
     })
 }
 
-function observerColumns(mutations , observer){
+function observerColumns(mutations , observer, boards){
     mutations.forEach(mutation => {
         const boardDOM = mutation.target.parentElement
 
@@ -425,7 +425,7 @@ function observerColumns(mutations , observer){
     })
 }
 
-function observerTitleColumn(mutations , observer){
+function observerTitleColumn(mutations , observer, boards){
     mutations.forEach(mutation => {
         const columnDOM = mutation.target.parentElement
         const boardDOM = getBoardFromColumn(columnDOM)
