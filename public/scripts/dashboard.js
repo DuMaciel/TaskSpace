@@ -98,6 +98,9 @@ function createBoard(boardData){
     })
     board.appendChild(columns)
 
+    const observer = new MutationObserver(observerColumns)
+    observer.observe(columns, {childList: true})
+
     const butCreateColumn = document.createElement('button')
     butCreateColumn.classList.add('createColumn')
     butCreateColumn.innerText = '+'
@@ -142,7 +145,7 @@ function createColumn(columnData, boardData){
     const titleColumn = document.createElement('input')
     titleColumn.classList.add('titleColumn')
     titleColumn.type= 'text'
-    titleColumn.placeholder= 'New Board'
+    titleColumn.placeholder= 'New Column'
     titleColumn.maxLength= 30
     titleColumn.readOnly= true
     titleColumn.value= columnData.title
@@ -151,6 +154,9 @@ function createColumn(columnData, boardData){
         titleColumn.readOnly= true
     })
     column.appendChild(titleColumn)
+
+    const observerTitle = new MutationObserver(observerTitleColumn)
+    observerTitle.observe(titleColumn, {attributes: true, attributeFilter: ['value']})
 
     const listTask = document.createElement('listTask')
     listTask.classList.add('listTask')
@@ -161,6 +167,8 @@ function createColumn(columnData, boardData){
     column.appendChild(listTask)
 
     dragColumnConfig(column)
+    const observerList = new MutationObserver(observerListTask)
+    observerList.observe(listTask, {childList: true})
 
     const butCreateTask = document.createElement('button')
     butCreateTask.classList.add('createTask')
@@ -206,6 +214,8 @@ function createTask(taskData){
     //     tagsTask.appendChild(tag)
     // })
     task.appendChild(tagsTask)
+    const observer = new MutationObserver(observerTask)
+    observer.observe(task, {attributes: true, attributeFilter: ['data-description']})
 
     return task
 }
@@ -341,3 +351,113 @@ function dragTaskConfig(task){
     })
 }
 
+// mutations observers 
+function observerListTask(mutations , observer){
+    mutations.forEach(mutation => {
+        const columnDOM = mutation.target.parentElement
+        const boardDOM = getBoardFromColumn(columnDOM)
+
+        const boardId = boardDOM.dataset.boardId
+        const columnId = columnDOM.dataset.columnId
+
+        const board = boards[boards.findIndex(board => board.id == boardId)]
+        const column = board.columns[board.columns.findIndex(column => column.id == columnId)]
+        const tasks = column.tasks
+
+        mutation.removedNodes.forEach(element => {
+            tasks.splice(tasks.findIndex(task => task.id == element.dataset.taskId),1)
+        })
+        mutation.addedNodes.forEach(element => {
+            if(mutation.previousSibling){
+                tasks.splice(tasks.findIndex(task => task.id == mutation.previousSibling.dataset.taskId) + 1,0, taskSerializer(element))
+                return
+            }
+            if(mutation.nextSibling){
+                tasks.splice(tasks.findIndex(task => task.id == mutation.nextSibling.dataset.taskId),0, taskSerializer(element))
+                return
+            }
+            tasks.splice(-1,0, taskSerializer(element))
+        })
+        
+    })
+}
+
+function observerTask(mutations , observer){
+    mutations.forEach(mutation => {
+        const taskDOM = mutation.target
+        const columnDOM = getColumnFromTask(taskDOM)
+        const boardDOM = getBoardFromColumn(columnDOM)
+
+        const boardId = boardDOM.dataset.boardId
+        const columnId = columnDOM.dataset.columnId
+
+        const board = boards[boards.findIndex(board => board.id == boardId)]
+        const column = board.columns[board.columns.findIndex(column => column.id == columnId)]
+        const tasks = column.tasks
+        
+        tasks.splice(tasks.findIndex(task => task.id == taskDOM.dataset.taskId), 1, taskSerializer(taskDOM))
+    })
+}
+
+function observerColumns(mutations , observer){
+    mutations.forEach(mutation => {
+        const boardDOM = mutation.target.parentElement
+
+        const boardId = boardDOM.dataset.boardId
+
+        const board = boards[boards.findIndex(board => board.id == boardId)]
+        const columns = board.columns
+
+        mutation.removedNodes.forEach(element => {
+            columns.splice(columns.findIndex(column => column.id == element.dataset.columnId),1)
+        })
+        mutation.addedNodes.forEach(element => {
+            if(mutation.previousSibling){
+                columns.splice(columns.findIndex(column => column.id == mutation.previousSibling.dataset.columnId) + 1,0, columnSerializer(element))
+                return
+            }
+            if(mutation.nextSibling){
+                columns.splice(columns.findIndex(column => column.id == mutation.nextSibling.dataset.columnId),0, columnSerializer(element))
+                return
+            }
+            columns.splice(-1,0, columnSerializer(element))
+        })
+    })
+}
+
+function observerTitleColumn(mutations , observer){
+    mutations.forEach(mutation => {
+        const columnDOM = mutation.target.parentElement
+        const boardDOM = getBoardFromColumn(columnDOM)
+
+        const boardId = boardDOM.dataset.boardId
+        const columnId = columnDOM.dataset.columnId
+
+        const board = boards[boards.findIndex(board => board.id == boardId)]
+        const column = board.columns[board.columns.findIndex(column => column.id == columnId)]
+
+        column.title = mutation.target.value
+    })
+}
+
+function columnSerializer(column){
+    const columnData = {id: parseInt(column.dataset.columnId), title: column.querySelector('.titleColumn').value, tasks: []}
+    const tasks = column.querySelectorAll('.listTask .task')
+    tasks.forEach(task => {
+        columnData.tasks.push(taskSerializer(task))
+    })
+    return columnData
+}
+
+function taskSerializer(task){
+    const taskData = {id: parseInt(task.dataset.taskId), title: task.querySelector('.titleTask').innerText, description: task.dataset.description}
+    return taskData
+}
+
+function getColumnFromTask(task){
+    return task.parentElement.parentElement
+}
+
+function getBoardFromColumn(column){
+    return column.parentElement.parentElement
+}
