@@ -44,5 +44,5 @@
 </body>
 
 
-<script src="/public/scripts/dashboard.js"></script>
+<script type="module" src="/public/scripts/dashboard.js"></script>
 </html>

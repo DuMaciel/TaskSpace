@@ -1,3 +1,7 @@
+import { openModal } from './modules/modal.js'
+import { dragColumnConfig, dragTaskConfig } from './modules/dragAndDrop.js'
+import { observerColumns, observerTitleColumn, observerListTask, observerTask } from './modules/mutationObserver.js';
+
 // variable corresponding to the data that I will receive from the server updated and returned
 const boards = [
     {
@@ -66,6 +70,7 @@ function deactivateAll(){
 }
 
 function boardIdGenerator(){
+    console.log(boards)
     let i;
     let exist = false;
     for(i=1 ; ; i++){
@@ -193,7 +198,7 @@ function createTask(taskData){
     task.dataset.description = taskData.description
     task.draggable = true
 
-
+    
     const identificationTask = document.createElement('p')
     identificationTask.classList.add('identificationTask')
     identificationTask.innerText = `#${taskData.id}`
@@ -220,43 +225,6 @@ function createTask(taskData){
     return task
 }
 
-// modal 
-function openModal(task , listTask = undefined){
-    const title = taskModal.querySelector('.title')
-    const description = taskModal.querySelector('.description')
-    cleanModal()
-    const cancel = taskModal.querySelector('.cancel')
-    const confirm = taskModal.querySelector('.confirm')
-    taskModal.classList.add('active')
-    if(!listTask){
-        title.value = task.querySelector('.titleTask').innerText
-        description.value = task.dataset.description
-     }   
-        cancel.addEventListener('click', funCancel)
-        confirm.addEventListener('click', funconfirm)
-    
-    function funCancel(){
-        taskModal.classList.remove('active')
-        cancel.removeEventListener('click', funCancel)
-        confirm.removeEventListener('click', funconfirm)
-    }
-    function funconfirm(){
-        taskModal.classList.remove('active')
-        task.querySelector('.titleTask').innerText = title.value
-        task.dataset.description = description.value
-        cancel.removeEventListener('click', funCancel)
-        confirm.removeEventListener('click', funconfirm)
-        if(listTask){
-            listTask.appendChild(task)
-        }
-    }
-    function cleanModal(){
-        title.value = ''
-        description.value = ''
-    }
-
-}
-
 // initializing dashboard
 boards.forEach((board, index) => {
     const navBoard = createBoard(board)
@@ -265,199 +233,3 @@ boards.forEach((board, index) => {
         navBoard.dispatchEvent(click)
     }
 })
-
-
-// drag and drop config 
-function dragColumnConfig(column){
-    const listTask = column.querySelector('.listTask')
-
-    column.addEventListener('dragstart', (event)=> {
-        if(event.target.nodeType != 1) return
-        if(event.target.classList.contains('column')) event.target.id = 'columnTransferring'
-        event.dataTransfer.effectAllowed = 'move'
-    })
-    column.addEventListener('dragover', (event)=> {
-        event.preventDefault()
-        event.dataTransfer.dropEffect = 'move'
-        const taskTransferring = document.getElementById('taskTransferring')
-        if(taskTransferring){
-            listTask.classList.add('emphasis')
-        }else{
-            column.classList.add('emphasis')
-        }
-        event.stopPropagation()
-    })
-    column.addEventListener('dragleave', (event)=> {
-        event.preventDefault()
-        const taskTransferring = document.getElementById('taskTransferring')
-        if(taskTransferring){
-            listTask.classList.remove('emphasis')
-        }else{
-            column.classList.remove('emphasis')
-        }
-        event.stopPropagation()
-    })
-
-    column.addEventListener('drop', (event)=>{
-        column.classList.remove('emphasis')
-        listTask.classList.remove('emphasis')
-        event.target.classList.remove('emphasis')
-        if(event.target.nodeType != 1) return
-        
-        const taskTransferring = document.getElementById('taskTransferring')
-        if(taskTransferring){
-        taskTransferring.id = ''
-        column.querySelector('.listTask').appendChild(taskTransferring)
-        }
-
-        const columnTransferring = document.getElementById('columnTransferring')
-        if(columnTransferring){
-            columnTransferring.id = ''
-            column.parentElement.insertBefore(columnTransferring, column)
-        }
-    })
-}
-
-function dragTaskConfig(task){
-    task.addEventListener('dragstart', (event)=> {
-        if(event.target.nodeType != 1) return
-        if(event.target.classList.contains('task')) event.target.id = 'taskTransferring'
-    })
-    task.addEventListener('dragover', (event)=> {
-        event.preventDefault()
-        const taskTransferring = document.getElementById('taskTransferring')
-        if(taskTransferring) task.classList.add('emphasis') 
-    })
-    task.addEventListener('dragleave', (event)=> {
-        event.preventDefault()
-        task.classList.remove('emphasis')
-    })
-
-    task.addEventListener('drop', (event)=> {
-        if(event.target.nodeType != 1) return
-        task.classList.remove('emphasis')
-        
-        const taskTransferring = document.getElementById('taskTransferring')
-        if(taskTransferring){
-        taskTransferring.id = ''
-        task.parentElement.insertBefore(taskTransferring, task)
-        }
-
-        const columnTransferring = document.getElementById('columnTransferring')
-        if(columnTransferring){
-            columnTransferring.id = ''
-            task.parentElement.parentElement.parentElement.insertBefore(columnTransferring, task.parentElement.parentElement)
-        }
-    })
-}
-
-//mutations observers 
-function observerListTask(mutations , observer, boards){
-    mutations.forEach(mutation => {
-        const columnDOM = mutation.target.parentElement
-        const boardDOM = getBoardFromColumn(columnDOM)
-
-        const boardId = boardDOM.dataset.boardId
-        const columnId = columnDOM.dataset.columnId
-
-        const board = boards[boards.findIndex(board => board.id == boardId)]
-        const column = board.columns[board.columns.findIndex(column => column.id == columnId)]
-        const tasks = column.tasks
-
-        mutation.removedNodes.forEach(element => {
-            tasks.splice(tasks.findIndex(task => task.id == element.dataset.taskId),1)
-        })
-        mutation.addedNodes.forEach(element => {
-            if(mutation.previousSibling){
-                tasks.splice(tasks.findIndex(task => task.id == mutation.previousSibling.dataset.taskId) + 1,0, taskSerializer(element))
-                return
-            }
-            if(mutation.nextSibling){
-                tasks.splice(tasks.findIndex(task => task.id == mutation.nextSibling.dataset.taskId),0, taskSerializer(element))
-                return
-            }
-            tasks.splice(-1,0, taskSerializer(element))
-        })
-        
-    })
-}
-
-function observerTask(mutations , observer, boards){
-    mutations.forEach(mutation => {
-        const taskDOM = mutation.target
-        const columnDOM = getColumnFromTask(taskDOM)
-        const boardDOM = getBoardFromColumn(columnDOM)
-
-        const boardId = boardDOM.dataset.boardId
-        const columnId = columnDOM.dataset.columnId
-
-        const board = boards[boards.findIndex(board => board.id == boardId)]
-        const column = board.columns[board.columns.findIndex(column => column.id == columnId)]
-        const tasks = column.tasks
-        
-        tasks.splice(tasks.findIndex(task => task.id == taskDOM.dataset.taskId), 1, taskSerializer(taskDOM))
-    })
-}
-
-function observerColumns(mutations , observer, boards){
-    mutations.forEach(mutation => {
-        const boardDOM = mutation.target.parentElement
-
-        const boardId = boardDOM.dataset.boardId
-
-        const board = boards[boards.findIndex(board => board.id == boardId)]
-        const columns = board.columns
-
-        mutation.removedNodes.forEach(element => {
-            columns.splice(columns.findIndex(column => column.id == element.dataset.columnId),1)
-        })
-        mutation.addedNodes.forEach(element => {
-            if(mutation.previousSibling){
-                columns.splice(columns.findIndex(column => column.id == mutation.previousSibling.dataset.columnId) + 1,0, columnSerializer(element))
-                return
-            }
-            if(mutation.nextSibling){
-                columns.splice(columns.findIndex(column => column.id == mutation.nextSibling.dataset.columnId),0, columnSerializer(element))
-                return
-            }
-            columns.splice(-1,0, columnSerializer(element))
-        })
-    })
-}
-
-function observerTitleColumn(mutations , observer, boards){
-    mutations.forEach(mutation => {
-        const columnDOM = mutation.target.parentElement
-        const boardDOM = getBoardFromColumn(columnDOM)
-
-        const boardId = boardDOM.dataset.boardId
-        const columnId = columnDOM.dataset.columnId
-
-        const board = boards[boards.findIndex(board => board.id == boardId)]
-        const column = board.columns[board.columns.findIndex(column => column.id == columnId)]
-
-        column.title = mutation.target.value
-    })
-}
-
-function columnSerializer(column){
-    const columnData = {id: parseInt(column.dataset.columnId), title: column.querySelector('.titleColumn').value, tasks: []}
-    const tasks = column.querySelectorAll('.listTask .task')
-    tasks.forEach(task => {
-        columnData.tasks.push(taskSerializer(task))
-    })
-    return columnData
-}
-
-function taskSerializer(task){
-    const taskData = {id: parseInt(task.dataset.taskId), title: task.querySelector('.titleTask').innerText, description: task.dataset.description}
-    return taskData
-}
-
-function getColumnFromTask(task){
-    return task.parentElement.parentElement
-}
-
-function getBoardFromColumn(column){
-    return column.parentElement.parentElement
-}
