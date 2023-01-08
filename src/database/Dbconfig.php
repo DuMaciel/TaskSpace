@@ -3,7 +3,7 @@ class Dbconfig{
     static protected string $serverName = 'localhost';
     static protected string $userName = 'root';
     static protected string $passWord = '';
-    static protected string $dataBase = 'todolist';
+    static protected string $dataBase = 'taskspace';
     static public mysqli $connection;
 
     static function getConnection(){
