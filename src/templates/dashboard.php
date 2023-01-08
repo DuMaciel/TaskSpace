@@ -1,3 +1,13 @@
+<?php
+    if(isset($_SESSION['Logged'])){
+        if($_SESSION['Logged']){
+        }else{
+            header('Location:/login');
+        }
+    }else{
+        header('Location:/login');
+    }
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
