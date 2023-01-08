@@ -6,7 +6,7 @@
         include realpath(__DIR__ . '/../database/Mysql.php');
         $db = new Mysql();
 
-        if($db::testPass($email, $password)){
+        if($db::userPassTest($email, $password)){
             $_SESSION['user'] = $email;
             $_SESSION['Logged'] = true;
             header('Location:/dashboard');

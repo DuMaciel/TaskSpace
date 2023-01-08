@@ -9,7 +9,7 @@
         $db = new Mysql();
 
         if(!$db::userExist($email)){
-            if($db::insertUser($name, $email, $password)){
+            if($db::userInsert($name, $email, $password)){
                 $_SESSION['successRegistering']=true;
                 header('Location:/login');
             }else{

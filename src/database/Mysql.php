@@ -13,19 +13,18 @@ class Mysql{
         return ($resultado->num_rows > 0);
     }
 
-    static function insertUser($name, $email, $pass){
+    static function userInsert($name, $email, $pass){
         $name = self::$mysql->real_escape_string($name);
         $email = self::$mysql->real_escape_string($email);
         $pass = password_hash($pass, PASSWORD_DEFAULT);
-
-        if(!self::userExist($email)){
+        if(self::userExist($email)){
+            return false; 
+        }
             $resultado = self::$mysql->query("INSERT INTO `users`  (`email`, `name`, `password`) VALUES ('$email','$name','$pass');");
             return $resultado;
         }
-        return false;
-    }
 
-    static function testPass($email, $pass){
+    static function userPassTest($email, $pass){
         if(self::userExist($email)){
             $passHash = self::$mysql->query("SELECT `password` FROM `users` WHERE `email` = '$email'")->fetch_assoc()['password'];
             $resultado = password_verify($pass, $passHash);
