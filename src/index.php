@@ -1,12 +1,14 @@
 
 <?php
 session_start();
+if (!isset($_SESSION['Logged'])) {
+    $_SESSION['Logged'] = false;
+}
 
 $method = $_SERVER['REQUEST_METHOD'];
 $url = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
-
-switch ($method){
+switch ($method) {
     case 'GET':
         switch ($url) {
             case '/':

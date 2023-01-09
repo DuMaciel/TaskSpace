@@ -1,22 +1,18 @@
 <?php
-    if(isset($_SESSION['Logged'])){
-        if($_SESSION['Logged']){
-        }else{
-            header('Location:/login');
-        }
-    }else{
-        header('Location:/login');
-    }
+if (!$_SESSION['Logged']) {
+    header('Location:/login');
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
+
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
 
 
@@ -25,6 +21,7 @@
     <title>Your TaskSpace</title>
 
 </head>
+
 <body>
     <header>
         <a href="/home">TaskSpace</a>
@@ -33,12 +30,12 @@
 
     <div id='boardsMenu'>
         <ul id="navBoards">
-            
+
         </ul>
         <button id="createBoard">+</button>
     </div>
     <div id="boards">
-       
+
     </div>
 
     <div id="taskModal">
@@ -48,11 +45,12 @@
             <button class="cancel">Cancel</button>
             <button class="confirm">Confirm</button>
         </div>
-        
+
     </div>
     <div class="background"></div>
 </body>
 
 
 <script type="module" src="/public/scripts/dashboard.js"></script>
+
 </html>
