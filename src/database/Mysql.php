@@ -55,7 +55,7 @@ class Mysql
         $result = self::$mysql->query("SELECT `board` FROM `boards` WHERE `email` = '$email'");
         $resultado = [];
         while ($row = $result->fetch_assoc()) {
-            array_push($resultado, $row['board']);
+            array_push($resultado, json_decode($row['board']));
         };
         return $resultado;
     }

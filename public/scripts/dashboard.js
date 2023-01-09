@@ -3,40 +3,41 @@ import { dragColumnConfig, dragTaskConfig } from './modules/dragAndDrop.js'
 import { observerColumns, observerTitleColumn, observerListTask, observerTask } from './modules/mutationObserver.js';
 
 // variable corresponding to the data that I will receive from the server updated and returned
-const boards = [
-    {
-        id: 1,
-        title: 'Meu Board',
-        columnId: 3,
-        taskId: 8,
-        columns: [{
-            id: 1,
-            title: "Coluna 1",
-            tasks:  [{id: 1, title: 'Minha task 1', description: 'minha task bla bla'}, {id: 2, title: 'Minha task 2', description: 'minha task bla bla'},{id: 3, title: 'Minha task 3', description: 'minha task bla bla'}, {id: 4, title: 'Minha task 4', description: 'minha task bla bla'}]
-        },
-        {
-            id: 2,
-            title: "Coluna 2",
-            tasks: [{id: 5, title: 'Minha task 5', description: 'minha task bla bla'}, {id: 6, title: 'Minha task 6', description: 'minha task bla bla'}, {id: 7, title: 'Minha task 7', description: 'minha task bla bla'}]
-        }],
-    },
-    {
-        id: 2,
-        title: 'Meu Board 2',
-        columnId: 3,
-        taskId: 8,
-        columns: [{
-            id: 1,
-            title: "Coluna 1",
-            tasks:  [{id: 1, title: 'Minha task 1', description: 'minha task bla bla'}, {id: 2, title: 'Minha task 2', description: 'minha task bla bla'},{id: 3, title: 'Minha task 3', description: 'minha task bla bla'}, {id: 4, title: 'Minha task 4', description: 'minha task bla bla'}]
-        },
-        {
-            id: 2,
-            title: "Coluna 2",
-            tasks: [{id: 5, title: 'Minha task 5', description: 'minha task bla bla'}, {id: 6, title: 'Minha task 6', description: 'minha task bla bla'}, {id: 7, title: 'Minha task 7', description: 'minha task bla bla'}]
-        }],
-    }
-];
+
+// const boardsData = [
+//     {
+//         id: 1,
+//         title: 'Meu Board',
+//         columnId: 3,
+//         taskId: 8,
+//         columns: [{
+//             id: 1,
+//             title: "Coluna 1",
+//             tasks:  [{id: 1, title: 'Minha task 1', description: 'minha task bla bla'}, {id: 2, title: 'Minha task 2', description: 'minha task bla bla'},{id: 3, title: 'Minha task 3', description: 'minha task bla bla'}, {id: 4, title: 'Minha task 4', description: 'minha task bla bla'}]
+//         },
+//         {
+//             id: 2,
+//             title: "Coluna 2",
+//             tasks: [{id: 5, title: 'Minha task 5', description: 'minha task bla bla'}, {id: 6, title: 'Minha task 6', description: 'minha task bla bla'}, {id: 7, title: 'Minha task 7', description: 'minha task bla bla'}]
+//         }],
+//     },
+//     {
+//         id: 2,
+//         title: 'Meu Board 2',
+//         columnId: 3,
+//         taskId: 8,
+//         columns: [{
+//             id: 1,
+//             title: "Coluna 1",
+//             tasks:  [{id: 1, title: 'Minha task 1', description: 'minha task bla bla'}, {id: 2, title: 'Minha task 2', description: 'minha task bla bla'},{id: 3, title: 'Minha task 3', description: 'minha task bla bla'}, {id: 4, title: 'Minha task 4', description: 'minha task bla bla'}]
+//         },
+//         {
+//             id: 2,
+//             title: "Coluna 2",
+//             tasks: [{id: 5, title: 'Minha task 5', description: 'minha task bla bla'}, {id: 6, title: 'Minha task 6', description: 'minha task bla bla'}, {id: 7, title: 'Minha task 7', description: 'minha task bla bla'}]
+//         }],
+//     }
+// ];
 
 
 const areaBoards = document.getElementById('boards')
@@ -49,7 +50,6 @@ const taskModal = document.getElementById('taskModal')
 
 butCreateBoard.addEventListener('click', () => {
     const board = {id: boardIdGenerator(), title: '', columnId: 1, taskId: 1, columns: []}
-    boards.push(board)
     createBoard(board)
 })
 
@@ -70,12 +70,12 @@ function deactivateAll(){
 }
 
 function boardIdGenerator(){
-    console.log(boards)
+    const boards = document.querySelectorAll('#boards > div')
     let i;
     let exist = false;
     for(i=1 ; ; i++){
         for(let j=0; j<boards.length; j++){
-            if(boards[j].id == i){
+            if(boards[j].dataset.boardId == i){
                 exist = true;
                 break;
             }
@@ -103,7 +103,7 @@ function createBoard(boardData){
     })
     board.appendChild(columns)
 
-    const observer = new MutationObserver((mutations, observer) => observerColumns(mutations, observer, boards))
+    const observer = new MutationObserver((mutations, observer) => observerColumns(mutations, observer, boardData))
     observer.observe(columns, {childList: true})
 
     const butCreateColumn = document.createElement('button')
@@ -160,19 +160,19 @@ function createColumn(columnData, boardData){
     })
     column.appendChild(titleColumn)
 
-    const observerTitle = new MutationObserver((mutations, observer) => observerTitleColumn(mutations, observer, boards))
+    const observerTitle = new MutationObserver((mutations, observer) => observerTitleColumn(mutations, observer, boardData))
     observerTitle.observe(titleColumn, {attributes: true})
 
     const listTask = document.createElement('listTask')
     listTask.classList.add('listTask')
     //add all columns 
-    columnData.tasks.forEach((task)=>{
-        listTask.appendChild(createTask(task))
+    columnData.tasks.forEach((taskData)=>{
+        listTask.appendChild(createTask(taskData, boardData))
     })
     column.appendChild(listTask)
 
     dragColumnConfig(column)
-    const observerList = new MutationObserver((mutations, observer) => observerListTask(mutations, observer, boards))
+    const observerList = new MutationObserver((mutations, observer) => observerListTask(mutations, observer, boardData))
     observerList.observe(listTask, {childList: true})
 
     const butCreateTask = document.createElement('button')
@@ -180,7 +180,7 @@ function createColumn(columnData, boardData){
     butCreateTask.innerText = '+ Add Task'
     butCreateTask.addEventListener('click',()=> {
         const taskData = {id: boardData.taskId++, title: '', description: ''}
-        const task = createTask(taskData)
+        const task = createTask(taskData, boardData)
         openModal(task, listTask)
     }
     )
@@ -190,7 +190,7 @@ function createColumn(columnData, boardData){
 }
 
 // Task builder and the functions it depends on ----------------------------------
-function createTask(taskData){
+function createTask(taskData , boardData){
     const task = document.createElement('li')
     task.dataset.taskId = taskData.id
     task.classList.add('task')
@@ -219,17 +219,25 @@ function createTask(taskData){
     //     tagsTask.appendChild(tag)
     // })
     task.appendChild(tagsTask)
-    const observer = new MutationObserver((mutations, observer) => observerTask(mutations, observer, boards))
+    const observer = new MutationObserver((mutations, observer) => observerTask(mutations, observer, boardData))
     observer.observe(task, {attributes: true, attributeFilter: ['data-description']})
 
     return task
 }
 
 // initializing dashboard
-boards.forEach((board, index) => {
-    const navBoard = createBoard(board)
-    if(index === 0){
-        const click = new Event('click')
-        navBoard.dispatchEvent(click)
-    }
-})
+const boardsData = boardGetAll()
+async function boardGetAll(){
+    const response = await fetch('/dashboard?board=all&search=true', {"method": "POST"})
+    const boardsData = await response.json()
+    boardsData.forEach((board, index) => {
+        const navBoard = createBoard(board)
+        if(index === 0){
+            const click = new Event('click')
+            navBoard.dispatchEvent(click)
+        }
+    })
+    return boardsData
+}
+
+

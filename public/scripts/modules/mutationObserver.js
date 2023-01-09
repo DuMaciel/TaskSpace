@@ -1,14 +1,11 @@
 // mutations observers 
-export function observerListTask(mutations , observer, boards){
+export function observerListTask(mutations , observer, boardData){
     mutations.forEach(mutation => {
         const columnDOM = mutation.target.parentElement
-        const boardDOM = getBoardFromColumn(columnDOM)
-
-        const boardId = boardDOM.dataset.boardId
+        
         const columnId = columnDOM.dataset.columnId
 
-        const board = boards[boards.findIndex(board => board.id == boardId)]
-        const column = board.columns[board.columns.findIndex(column => column.id == columnId)]
+        const column = boardData.columns[boardData.columns.findIndex(column => column.id == columnId)]
         const tasks = column.tasks
 
         mutation.removedNodes.forEach(element => {
@@ -27,33 +24,27 @@ export function observerListTask(mutations , observer, boards){
         })
         
     })
+    fetch(`/dashboard?board=${boardData.id}&search=false`, {"method": "POST", "body": JSON.stringify(boardData)})
 }
 
-export function observerTask(mutations , observer, boards){
+export function observerTask(mutations , observer, boardData){
     mutations.forEach(mutation => {
         const taskDOM = mutation.target
         const columnDOM = getColumnFromTask(taskDOM)
-        const boardDOM = getBoardFromColumn(columnDOM)
 
-        const boardId = boardDOM.dataset.boardId
         const columnId = columnDOM.dataset.columnId
 
-        const board = boards[boards.findIndex(board => board.id == boardId)]
-        const column = board.columns[board.columns.findIndex(column => column.id == columnId)]
+        const column = boardData.columns[boardData.columns.findIndex(column => column.id == columnId)]
         const tasks = column.tasks
         
         tasks.splice(tasks.findIndex(task => task.id == taskDOM.dataset.taskId), 1, taskSerializer(taskDOM))
     })
+    fetch(`/dashboard?board=${boardData.id}&search=false`, {"method": "POST", "body": JSON.stringify(boardData)})
 }
 
-export function observerColumns(mutations , observer, boards){
+export function observerColumns(mutations , observer, boardData){
     mutations.forEach(mutation => {
-        const boardDOM = mutation.target.parentElement
-
-        const boardId = boardDOM.dataset.boardId
-
-        const board = boards[boards.findIndex(board => board.id == boardId)]
-        const columns = board.columns
+        const columns = boardData.columns
 
         mutation.removedNodes.forEach(element => {
             columns.splice(columns.findIndex(column => column.id == element.dataset.columnId),1)
@@ -70,21 +61,20 @@ export function observerColumns(mutations , observer, boards){
             columns.splice(-1,0, columnSerializer(element))
         })
     })
+    fetch(`/dashboard?board=${boardData.id}&search=false`, {"method": "POST", "body": JSON.stringify(boardData)})
 }
 
-export function observerTitleColumn(mutations , observer, boards){
+export function observerTitleColumn(mutations , observer, boardData){
     mutations.forEach(mutation => {
         console.log(mutation)
         const columnDOM = mutation.target.parentElement
-        const boardDOM = getBoardFromColumn(columnDOM)
 
-        const boardId = boardDOM.dataset.boardId
         const columnId = columnDOM.dataset.columnId
 
-        const board = boards[boards.findIndex(board => board.id == boardId)]
-        const column = board.columns[board.columns.findIndex(column => column.id == columnId)]
+        const column = boardData.columns[boardData.columns.findIndex(column => column.id == columnId)]
         column.title = mutation.target.value
     })
+    fetch(`/dashboard?board=${boardData.id}&search=false`, {"method": "POST", "body": JSON.stringify(boardData)})
 }
 
 function columnSerializer(column){
