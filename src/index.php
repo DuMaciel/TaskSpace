@@ -38,6 +38,9 @@ switch ($method) {
             case '/register':
                 include realpath(__DIR__ . '/modules/register.php');
                 break;
+            case '/dashboard':
+                include realpath(__DIR__ . '/modules/dashboard.php');
+                break;
             default:
                 http_response_code(404);
                 include realpath(__DIR__ . '/templates/error.php');
@@ -45,8 +48,8 @@ switch ($method) {
         break;
 
     default:
-    http_response_code(404);
-    include realpath(__DIR__ . '/templates/error.php');
+        http_response_code(404);
+        include realpath(__DIR__ . '/templates/error.php');
 }
 
 ?>
