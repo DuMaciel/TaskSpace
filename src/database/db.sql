@@ -2,30 +2,33 @@ DROP DATABASE `taskspace`;
 CREATE DATABASE `taskspace`;
 
 CREATE TABLE `users`(
-    `id` INT PRIMARY KEY,
+    `userId` INT PRIMARY KEY AUTO_INCREMENT,
     `email` VARCHAR(255) UNIQUE,
     `user` VARCHAR(30),
     `password` VARCHAR(60)
 ); 
 CREATE TABLE `boards`(
-    `id` INT,
-    `user` INT,
+    `boardId` INT AUTO_INCREMENT,
+    `userID` INT,
     `title` VARCHAR(30),
-    FOREIGN KEY (`user`) REFERENCES `users`(`id`),
-    PRIMARY KEY (`id`, `user`)
+    `last_task_id` INT DEFAULT 0,
+    FOREIGN KEY (`userID`) REFERENCES `users`(`userId`),
+    PRIMARY KEY (`boardId`, `userID`)
 ); 
 CREATE TABLE `columns`(
-    `id` INT,
-    `board` INT,
+    `columnId` INT AUTO_INCREMENT,
+    `boardId` INT,
     `title` VARCHAR(30),
-    FOREIGN KEY(`board`) REFERENCES `boards`(`id`),
-    PRIMARY KEY(`id`, `board`)
+    FOREIGN KEY(`boardId`) REFERENCES `boards`(`boardId`),
+    PRIMARY KEY(`columnId`, `boardId`)
 ); 
 CREATE TABLE `tasks`(
-    `id` INT,
-    `column` INT,
+    `taskId` INT,
+    `columnId` INT,
     `title` VARCHAR(100),
     `description` TEXT,
-    FOREIGN KEY(`column`) REFERENCES `columns`(`id`),
-    PRIMARY KEY(`id`, `column`)
+    `next_task_id` INT,
+    FOREIGN KEY(`next_task_id`) REFERENCES `tasks`(`taskId`),
+    FOREIGN KEY(`columnId`) REFERENCES `columns`(`columnId`),
+    PRIMARY KEY(`taskId`, `columnId`)
 );
