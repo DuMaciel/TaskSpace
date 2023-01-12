@@ -6,11 +6,12 @@ if (!isset($_POST['email']) || !isset($_POST['password'])) {
 $email = $_POST['email'];
 $password = $_POST['password'];
 
-include realpath(__DIR__ . '/../database/Mysql.php');
-$db = new Mysql();
+include realpath(__DIR__ . '/../database/User.php');
+$User = new User();
 
-if ($db::userPassTest($email, $password)) {
-    $_SESSION['user'] = $email;
+if ($User::userPassTest($email, $password)) {
+    $_SESSION['email'] = $email;
+    $_SESSION['user'] = $User::userId($email);
     $_SESSION['Logged'] = true;
     header('Location:/dashboard');
     return;

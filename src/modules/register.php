@@ -7,15 +7,15 @@ $name = $_POST['name'];
 $email = $_POST['email'];
 $password = $_POST['password'];
 
-include realpath(__DIR__ . '/../database/Mysql.php');
-$db = new Mysql();
+include realpath(__DIR__ . '/../database/User.php');
+$User = new User();
 
-if ($db::userExist($email)) {
+if ($User::userExist($email)) {
     $_SESSION['emailRegistred'] = true;
     header('Location:/register');
     return;
 }
-if ($db::userInsert($name, $email, $password)) {
+if ($User::userInsert($name, $email, $password)) {
     $_SESSION['successRegistering'] = true;
     header('Location:/login');
     return;
